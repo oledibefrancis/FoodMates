@@ -29,8 +29,6 @@
         android:ems="10"
         android:hint="Enter password...."
         android:inputType="textPassword"
-
-
         app:layout_constraintEnd_toEndOf="@+id/etUsername"
         app:layout_constraintStart_toStartOf="@+id/etUsername"
         app:layout_constraintTop_toBottomOf="@+id/etUsername" />
@@ -43,14 +41,13 @@
         android:layout_marginTop="68dp"
         android:ems="10"
         android:hint="Enter email..."
-        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="@+id/etUsername"
         app:layout_constraintStart_toStartOf="@+id/etUsername"
         app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
 
     <Button
-        android:id="@+id/etLoginButton"
+        android:id="@+id/etSignUpButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
@@ -76,10 +73,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:backgroundTint="#13acbe"
-        android:text="LOGIN"
         android:onClick="onLogIn"
+        android:text="LOGIN"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2" />
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/imageView2" />
 
     <TextView
         android:id="@+id/textView"

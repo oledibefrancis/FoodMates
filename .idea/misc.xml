@@ -6,10 +6,11 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.3546875" />
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.37014725568942436" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.43203125" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.5760416666666667" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5619791666666667" />
-        <entry key="app/src/main/res/layout/activity_signup.xml" value="0.5760416666666667" />
+        <entry key="app/src/main/res/layout/activity_signup.xml" value="0.14124293785310735" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.3145833333333333" />
+        <entry key="app/src/main/res/layout/activity_user_interest.xml" value="0.390625" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.390625" />
         <entry key="app/src/main/res/layout/user_interest.xml" value="0.575" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.32760416666666664" />

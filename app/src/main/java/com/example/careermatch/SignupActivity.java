@@ -10,18 +10,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 public class SignupActivity extends AppCompatActivity {
 
-    public static final String TAG = "SignActivity";
+    public static final String TAG = "SignUpActivity";
 
     EditText etUsername;
     EditText etPassword;
     EditText etEmail;
-    Button etSignUp;
+    Button etSignUpButton;
+
 
 
     @Override
@@ -31,49 +33,60 @@ public class SignupActivity extends AppCompatActivity {
 
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
-        etSignUp = findViewById(R.id.etSignUp);
+        etSignUpButton = findViewById(R.id.etSignUpButton);
         etEmail = findViewById(R.id.etEmail);
 
 
-        etSignUp.setOnClickListener(new View.OnClickListener() {
+        etSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Create new parse user object:
-                ParseUser user = new ParseUser();
-                // Set details:
+
                 String email = etEmail.getText().toString();
                 String userName = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
+                signUpUser(userName,password,email);
 
-                user.setUsername(userName);
-                user.setPassword(password);
-                user.setEmail(email);
-                // Invoke signUpInBackground:
-                user.signUpInBackground(new SignUpCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        Log.i(TAG, "onClick signUp button");
-                        Toast.makeText(getApplicationContext(),"Signed up sucessfully" , Toast.LENGTH_SHORT);
-
-                    }
-                    else {
-                        // Sign up did not succeeed.
-                        Toast.makeText(getApplicationContext(),"Error Signing Up" , Toast.LENGTH_SHORT);
-                    }
-
-                }
-            }
-                );
             }
         });
 
 
     }
 
-    public void onLogIn(){
+    private void goUserInterest() {
+        Intent intent = new Intent(this, UserInterest.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void signUpUser(String userName, String password, String email) {
+        ParseUser user = new ParseUser();
+
+        user.setUsername(userName);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.signUpInBackground(new SignUpCallback() {
+        @Override
+        public void done(ParseException e) {
+            if (e == null) {
+                Log.i(TAG, "onClick signUp button");
+                Toast.makeText(getApplicationContext(),"Signed up sucessfully" , Toast.LENGTH_SHORT);
+                goUserInterest();
+            }
+            else {
+                // Sign up did not succeed.
+                Toast.makeText(getApplicationContext(),"Error Signing Up" , Toast.LENGTH_SHORT);
+            }
+
+        }
+    }
+        );
+
+    }
+
+
+
+    public void onLogIn(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
-
 }

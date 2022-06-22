@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/intrest1"
+        android:id="@+id/interest1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -31,49 +31,49 @@
 
 
     <EditText
-        android:id="@+id/intrest2"
+        android:id="@+id/interest2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="80dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/intrest1"
-        app:layout_constraintTop_toBottomOf="@+id/intrest1" />
+        app:layout_constraintStart_toStartOf="@+id/interest1"
+        app:layout_constraintTop_toBottomOf="@+id/interest1" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="First Choice"
-        app:layout_constraintBottom_toTopOf="@+id/intrest1"
-        app:layout_constraintStart_toStartOf="@+id/intrest1" />
+        app:layout_constraintBottom_toTopOf="@+id/interest1"
+        app:layout_constraintStart_toStartOf="@+id/interest1" />
 
     <TextView
         android:id="@+id/placeholder3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Second Choice"
-        app:layout_constraintBottom_toTopOf="@+id/intrest2"
-        app:layout_constraintStart_toStartOf="@+id/intrest2" />
+        app:layout_constraintBottom_toTopOf="@+id/interest2"
+        app:layout_constraintStart_toStartOf="@+id/interest2" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/interest3"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_marginTop="80dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/intrest2"
-        app:layout_constraintTop_toBottomOf="@+id/intrest2" />
+        app:layout_constraintStart_toStartOf="@+id/interest2"
+        app:layout_constraintTop_toBottomOf="@+id/interest2" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/placeholder4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Third Choice"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName2"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintBottom_toTopOf="@+id/interest3"
+        app:layout_constraintStart_toStartOf="@+id/interest3" />
 
     <Button
         android:id="@+id/button"
@@ -81,6 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:backgroundTint="#13acbe"
+        android:onClick="onSubmit"
         android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

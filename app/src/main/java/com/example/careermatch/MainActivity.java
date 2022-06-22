@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this,"Home",Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_compose:
-                        Toast.makeText(MainActivity.this,"compose",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"Roadmap",Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_profile:
                     default:
