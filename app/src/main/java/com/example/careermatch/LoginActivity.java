@@ -29,9 +29,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if(ParseUser.getCurrentUser() != null){
-            goMainActivity();
-        }
+//        if(ParseUser.getCurrentUser() != null){
+//            goMainActivity();
+//        }
 
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
@@ -59,13 +59,14 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
+                Log.i(TAG,e.toString());
                 if(e != null){
-                    Log.e(TAG,"Issue with login", e);
+                    Log.e("get to here","Issue with login", e);
                     Toast.makeText(LoginActivity.this,"Issue with login!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 goMainActivity();
-                Toast.makeText(LoginActivity.this,"Sucess!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this,"Success!", Toast.LENGTH_SHORT).show();
             }
         });
     }

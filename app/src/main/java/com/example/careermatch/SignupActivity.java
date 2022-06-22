@@ -23,6 +23,7 @@ public class SignupActivity extends AppCompatActivity {
     EditText etPassword;
     EditText etEmail;
     Button etSignUpButton;
+    Button loginButton;
 
 
 
@@ -30,7 +31,7 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-
+        loginButton = findViewById(R.id.loginButton);
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         etSignUpButton = findViewById(R.id.etSignUpButton);
@@ -48,6 +49,14 @@ public class SignupActivity extends AppCompatActivity {
 
             }
         });
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
 
     }
@@ -60,7 +69,6 @@ public class SignupActivity extends AppCompatActivity {
 
     private void signUpUser(String userName, String password, String email) {
         ParseUser user = new ParseUser();
-
         user.setUsername(userName);
         user.setPassword(password);
         user.setEmail(email);
@@ -72,21 +80,20 @@ public class SignupActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Signed up sucessfully" , Toast.LENGTH_SHORT);
                 goUserInterest();
             }
-            else {
-                // Sign up did not succeed.
-                Toast.makeText(getApplicationContext(),"Error Signing Up" , Toast.LENGTH_SHORT);
-            }
 
+            else {
+                Log.i(TAG, "onClick Error");
+                Toast.makeText(getApplicationContext(),"Error Signing Up" , Toast.LENGTH_SHORT);
+                Log.e(TAG, e.toString());
+            }
         }
     }
         );
-
     }
-
-
 
     public void onLogIn(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+
 }
