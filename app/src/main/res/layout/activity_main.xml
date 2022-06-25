@@ -16,4 +16,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/menu_bottom_navigation" />
 
+    <FrameLayout
+        android:id="@+id/flContainer"
+        android:layout_width="407dp"
+        android:layout_height="677dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
