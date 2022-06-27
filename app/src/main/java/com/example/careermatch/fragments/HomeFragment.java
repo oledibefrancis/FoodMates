@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -98,7 +99,7 @@ public class HomeFragment extends Fragment {
         books = new ArrayList<>();
         BookAdapter bookAdapter = new BookAdapter(getContext(), books);
         rvHomeFeeds.setAdapter(bookAdapter);
-        rvHomeFeeds.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvHomeFeeds.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(GOOGLE_BOOK_URL, new JsonHttpResponseHandler() {

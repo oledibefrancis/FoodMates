@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.careermatch.fragments.ChatFragment;
 import com.example.careermatch.fragments.HomeFragment;
 import com.example.careermatch.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.action_compose:
                         Toast.makeText(MainActivity.this,"Roadmap",Toast.LENGTH_SHORT).show();
-                        fragment = new HomeFragment();
+                        fragment = new ChatFragment();
                         break;
                     case R.id.action_profile:
                     default:
