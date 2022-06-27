@@ -9,8 +9,8 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/action_compose"
-        android:icon="@drawable/icons8_roadmap64"
-        android:title="Roadmap"
+        android:icon="@drawable/ic_baseline_groups_2_24"
+        android:title="FoodHub"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_profile"

@@ -134,4 +134,5 @@ public class chatAdapter extends RecyclerView.Adapter<chatAdapter.MessageViewHol
     }
 
 
+
 }

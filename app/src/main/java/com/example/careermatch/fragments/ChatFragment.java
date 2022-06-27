@@ -109,14 +109,16 @@ public class ChatFragment extends Fragment {
 
         if (ParseUser.getCurrentUser() != null){
             startWithCurrentUser();
+//            setupMessagePosting();
         }
         else {
             login();
         }
+        refreshMessages();
 
         // Make sure the Parse server is setup to configured for live queries
         // Enter the websocket URL of your Parse server
-        String websocketUrl = "wss://PASTE_SERVER_WEBSOCKET_URL_HERE"; // ⚠️ TYPE IN A VALID WSS:// URL HERE
+        String websocketUrl = "wss://codepathparsechatlab.b4a.io/"; //
 
         ParseLiveQueryClient parseLiveQueryClient = null;
         try {
@@ -134,8 +136,7 @@ public class ChatFragment extends Fragment {
         subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, (query, object) -> {
             mMessages.add(0, object);
         // RecyclerView updates need to be run on the UI thread
-
-            runOnUiThread(new Runnable() {
+            getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     mAdapter.notifyDataSetChanged();

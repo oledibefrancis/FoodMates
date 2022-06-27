@@ -1,7 +1,11 @@
 package com.example.careermatch;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -16,11 +20,15 @@ import com.example.careermatch.fragments.HomeFragment;
 import com.example.careermatch.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigation;
     final FragmentManager fragmentManager = getSupportFragmentManager()  ;
     FrameLayout flContainer;
+
+
+
 
 
     @Override
@@ -55,6 +63,6 @@ public class MainActivity extends AppCompatActivity {
         });
         bottomNavigation.setSelectedItemId(R.id.action_home);
     }
-    //TODO 1) add filter home view, add search, add log out button
+
 
 }
