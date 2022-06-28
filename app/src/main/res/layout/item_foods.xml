@@ -34,7 +34,6 @@
             android:gravity="center"
             android:textStyle="bold"
             android:lines="2"
-            android:layout_marginStart="4dp"
             android:text="TextView" />
 
         <Button

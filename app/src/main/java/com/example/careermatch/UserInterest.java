@@ -32,10 +32,10 @@ public class UserInterest extends SignupActivity {
         interest3 = findViewById(R.id.interest3);
         btnSubmit = findViewById(R.id.btnSubmit);
 
-        String interest_One = interest1.getText().toString();
-        String interest_Two = interest2.getText().toString();
-        String interest_Three = interest3.getText().toString();
-        getUserInterest(interest_One,interest_Two,interest_Three);
+        String interestOne = interest1.getText().toString();
+        String interestTwo = interest2.getText().toString();
+        String interestThree = interest3.getText().toString();
+        getUserInterest(interestOne,interestTwo,interestThree);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,12 +51,12 @@ public class UserInterest extends SignupActivity {
     //saves the user interest in a database
     private void getUserInterest(String interest1, String interest2, String interest3) {
         ParseObject interest = new ParseObject("Interest");
-// Store an object
+    // Store an object
         interest.put("FirstChoice", interest1);
         interest.put("SecondChoice", interest2);
         interest.put("ThirdChoice", interest3);
 
-// Saving object
+    // Saving object
         interest.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

@@ -14,11 +14,10 @@
         android:layout_margin="30dp"
         android:layout_marginTop="68dp"
         android:ems="10"
-        android:hint="Enter username...."
+        android:hint="Enter Username"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        tools:layout_editor_absoluteX="30dp" />
 
     <EditText
         android:id="@+id/etPassword"
@@ -52,10 +51,12 @@
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:layout_marginStart="12dp"
-        android:backgroundTint="#13acbe"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/roundstyle"
+        android:backgroundTint="@color/green"
         android:text="SIGNUP"
         app:layout_constraintStart_toStartOf="@+id/etPassword"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/etBirthDate" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -65,14 +66,15 @@
         android:layout_marginTop="36dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/lodo2" />
+        app:srcCompat="@drawable/logo" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="#13acbe"
+        android:backgroundTint="@color/green"
+        android:background="@drawable/roundstyle"
         android:text="LOGIN"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
@@ -87,5 +89,32 @@
         app:layout_constraintBottom_toTopOf="@+id/loginButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/etContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:layout_marginTop="44dp"
+        android:ems="10"
+        android:hint="+1(501.....)"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/etEmail"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="@+id/etEmail"
+        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+
+    <EditText
+        android:id="@+id/etBirthDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:ems="10"
+        android:hint="01/01/1999"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/etContact"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/etContact"
+        app:layout_constraintTop_toBottomOf="@+id/etContact" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

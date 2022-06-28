@@ -11,7 +11,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
+import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -22,6 +24,8 @@ public class SignupActivity extends AppCompatActivity {
     EditText etUsername;
     EditText etPassword;
     EditText etEmail;
+    EditText  etContact;
+    EditText etBirthDate;
     Button etSignUpButton;
     Button loginButton;
 
@@ -36,6 +40,9 @@ public class SignupActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         etSignUpButton = findViewById(R.id.etSignUpButton);
         etEmail = findViewById(R.id.etEmail);
+        etContact = findViewById(R.id.etContact);
+        etBirthDate = findViewById(R.id.etBirthDate);
+
 
 
         etSignUpButton.setOnClickListener(new View.OnClickListener() {
@@ -45,7 +52,9 @@ public class SignupActivity extends AppCompatActivity {
                 String email = etEmail.getText().toString();
                 String userName = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
-                signUpUser(userName,password,email);
+                String contact = etContact.getText().toString();
+                String dob = etBirthDate.getText().toString();
+                signUpUser(userName,password,email,contact,dob);
 
             }
         });
@@ -67,11 +76,15 @@ public class SignupActivity extends AppCompatActivity {
         finish();
     }
 
-    public void signUpUser(String userName, String password, String email) {
+    public void signUpUser(String userName, String password, String email, String dob, String contact) {
         ParseUser user = new ParseUser();
         user.setUsername(userName);
         user.setPassword(password);
         user.setEmail(email);
+        user.put("Date", dob);
+        user.put("Contact", contact);
+
+
         user.signUpInBackground(new SignUpCallback() {
         @Override
         public void done(ParseException e) {
@@ -89,11 +102,6 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
         );
-    }
-
-    public void onLogIn(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
     }
 
 }

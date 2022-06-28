@@ -41,7 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:layout_marginTop="40dp"
-        android:backgroundTint="#13acbe"
+        android:backgroundTint="@color/green"
+        android:background="@drawable/roundstyle"
         android:text="LOGIN"
         app:layout_constraintStart_toStartOf="@+id/etPassword"
         app:layout_constraintTop_toBottomOf="@+id/etPassword" />
@@ -54,14 +55,14 @@
         android:layout_marginTop="36dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/lodo2" />
+        app:srcCompat="@drawable/logo" />
 
     <Button
         android:id="@+id/etSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="#13acbe"
+        android:backgroundTint="@color/green"
         android:text="SIGNUP"
         android:onClick="onSignUp"
         app:layout_constraintBottom_toBottomOf="parent"

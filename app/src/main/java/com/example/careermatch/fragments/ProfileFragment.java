@@ -1,14 +1,21 @@
 package com.example.careermatch.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.example.careermatch.LoginActivity;
 import com.example.careermatch.R;
+import com.parse.ParseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +28,12 @@ public class ProfileFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    Button logOutBtn;
+    TextView username;
+    TextView profileEmail;
+    TextView contactNo;
+    TextView birthDate;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -62,5 +75,33 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
+
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        logOutBtn = view.findViewById(R.id.logOutBtn);
+        username = view.findViewById(R.id.username);
+        profileEmail = view.findViewById(R.id.profileEmail);
+        contactNo = view.findViewById(R.id.contactNo);
+        birthDate = view.findViewById(R.id.birthDate);
+
+        username.setText(ParseUser.getCurrentUser().getUsername());
+        profileEmail.setText(ParseUser.getCurrentUser().getEmail());
+        contactNo.setText(ParseUser.getCurrentUser().getString("Contact"));
+
+        logOutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseUser.logOutInBackground();
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
