@@ -1,4 +1,4 @@
-package com.example.careermatch;
+package com.example.foodmates;
 
 import android.content.Context;
 

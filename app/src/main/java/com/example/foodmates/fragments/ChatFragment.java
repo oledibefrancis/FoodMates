@@ -1,4 +1,4 @@
-package com.example.careermatch.fragments;
+package com.example.foodmates.fragments;
 
 import android.os.Bundle;
 
@@ -16,14 +16,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.careermatch.Models.Message;
-import com.example.careermatch.R;
-import com.example.careermatch.chatAdapter;
+import com.example.foodmates.Models.Message;
+import com.example.foodmates.R;
+import com.example.foodmates.chatAdapter;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -43,8 +42,7 @@ import java.util.List;
  */
 public class ChatFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String TAG = HomeFragment.class.getSimpleName();
@@ -60,7 +58,6 @@ public class ChatFragment extends Fragment {
 
     ;
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -68,15 +65,6 @@ public class ChatFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChatFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ChatFragment newInstance(String param1, String param2) {
         ChatFragment fragment = new ChatFragment();
         Bundle args = new Bundle();
@@ -114,6 +102,7 @@ public class ChatFragment extends Fragment {
         else {
             login();
         }
+
         refreshMessages();
 
         // Make sure the Parse server is setup to configured for live queries

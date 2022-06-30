@@ -1,6 +1,4 @@
-package com.example.careermatch;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.foodmates;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +8,6 @@ import android.widget.EditText;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 public class UserInterest extends SignupActivity {

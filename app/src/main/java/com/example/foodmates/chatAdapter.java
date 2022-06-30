@@ -1,4 +1,4 @@
-package com.example.careermatch;
+package com.example.foodmates;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.careermatch.Models.Message;
+import com.example.foodmates.Models.Message;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

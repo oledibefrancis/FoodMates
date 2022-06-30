@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.careermatch">
+    package="com.example.foodmates">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <queries>
+        <!-- Camera -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
+
     <application
-        android:name=".ParseApplication"
+        android:name="com.example.foodmates.ParseApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -17,21 +24,34 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CareerMatch"
         tools:targetApi="31">
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.codepath.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fileprovider" />
+        </provider>
+
         <activity
-            android:name=".UserInterest"
+            android:name="com.example.foodmates.Activities.ComposeActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name="com.example.foodmates.UserInterest"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.foodmates.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".SignupActivity"
+            android:name="com.example.foodmates.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.foodmates.SignupActivity"
             android:exported="false"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name="com.example.foodmates.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

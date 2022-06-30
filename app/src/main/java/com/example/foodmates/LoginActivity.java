@@ -1,4 +1,4 @@
-package com.example.careermatch;
+package com.example.foodmates;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,9 +13,6 @@ import android.widget.Toast;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-
-import java.io.IOException;
-import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 

@@ -1,11 +1,5 @@
-package com.example.careermatch;
+package com.example.foodmates;
 import com.codepath.asynchttpclient.AsyncHttpClient;
-import com.codepath.asynchttpclient.RequestParams;
-
-import com.codepath.asynchttpclient.AsyncHttpClient;
-import com.codepath.asynchttpclient.BuildConfig;
-import com.codepath.asynchttpclient.RequestParams;
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 //public class foodclient extends AsyncHttpClient {
 //    public static final String API_KEY = "f1bb97f5a6b141f1b5f8e17a2eba1296";

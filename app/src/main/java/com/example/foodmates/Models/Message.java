@@ -1,4 +1,4 @@
-package com.example.careermatch.Models;
+package com.example.foodmates.Models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;

@@ -1,26 +1,19 @@
-package com.example.careermatch;
+package com.example.foodmates;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.example.careermatch.fragments.ChatFragment;
-import com.example.careermatch.fragments.HomeFragment;
-import com.example.careermatch.fragments.ProfileFragment;
+import com.example.foodmates.fragments.ChatFragment;
+import com.example.foodmates.fragments.HomeFragment;
+import com.example.foodmates.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigation;

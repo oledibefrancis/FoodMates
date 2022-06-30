@@ -1,4 +1,4 @@
-package com.example.careermatch.fragments;
+package com.example.foodmates.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.careermatch.LoginActivity;
-import com.example.careermatch.R;
+import com.example.foodmates.LoginActivity;
+import com.example.foodmates.R;
 import com.parse.ParseUser;
 
 /**
@@ -92,6 +92,8 @@ public class ProfileFragment extends Fragment {
         username.setText(ParseUser.getCurrentUser().getUsername());
         profileEmail.setText(ParseUser.getCurrentUser().getEmail());
         contactNo.setText(ParseUser.getCurrentUser().getString("Contact"));
+        birthDate.setText(ParseUser.getCurrentUser().getString("Date"));
+
 
         logOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override

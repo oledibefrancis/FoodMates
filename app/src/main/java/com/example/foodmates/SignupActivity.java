@@ -1,4 +1,4 @@
-package com.example.careermatch;
+package com.example.foodmates;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,10 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.parse.LogInCallback;
-import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -53,8 +50,8 @@ public class SignupActivity extends AppCompatActivity {
                 String userName = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 String contact = etContact.getText().toString();
-                String dob = etBirthDate.getText().toString();
-                signUpUser(userName,password,email,contact,dob);
+                String birthDate = etBirthDate.getText().toString();
+                signUpUser(userName,password,email,contact,birthDate);
 
             }
         });
@@ -76,12 +73,12 @@ public class SignupActivity extends AppCompatActivity {
         finish();
     }
 
-    public void signUpUser(String userName, String password, String email, String dob, String contact) {
+    public void signUpUser(String userName, String password, String email, String contact, String birthDate ) {
         ParseUser user = new ParseUser();
         user.setUsername(userName);
         user.setPassword(password);
         user.setEmail(email);
-        user.put("Date", dob);
+        user.put("Date", birthDate);
         user.put("Contact", contact);
 
 
