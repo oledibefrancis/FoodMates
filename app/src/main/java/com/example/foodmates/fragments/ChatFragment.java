@@ -105,8 +105,6 @@ public class ChatFragment extends Fragment {
 
         refreshMessages();
 
-        // Make sure the Parse server is setup to configured for live queries
-        // Enter the websocket URL of your Parse server
         String websocketUrl = "wss://codepathparsechatlab.b4a.io/"; //
 
         ParseLiveQueryClient parseLiveQueryClient = null;

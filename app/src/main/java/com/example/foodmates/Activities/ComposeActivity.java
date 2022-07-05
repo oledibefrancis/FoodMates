@@ -19,14 +19,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+//import com.example.careermatch.R;
 import com.example.foodmates.Models.UserPost;
 import com.example.foodmates.R;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class ComposeActivity extends AppCompatActivity {
     public static final String  TAG = "ComposeActivity";
@@ -35,9 +41,9 @@ public class ComposeActivity extends AppCompatActivity {
     Button btnCaptureImage;
     Button btnSubmit;
     ImageView ivPostImage;
-    MenuItem miActionProgress;
     public String photoFileName = "photo.jpg";
     private File photoFile;
+    private ParseFile f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,24 +54,28 @@ public class ComposeActivity extends AppCompatActivity {
         btnCaptureImage = findViewById(R.id.btnCaptureImage);
         btnSubmit = findViewById(R.id.btnSubmit);
         ivPostImage = findViewById(R.id.ivPostImage);
+        btnSubmit.setClickable(true);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btnSubmit.setClickable(false);
+
                 String description = etDescription.getText().toString();
                 if (description.isEmpty()){
                     Toast.makeText( ComposeActivity.this,"Description cannot be empty",Toast.LENGTH_SHORT).show();
+                    btnSubmit.setClickable(true);
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(description,currentUser,photoFile);
-
             }
 
             private void savePost(String description, ParseUser currentUser, File photoFile) {
+                Toast.makeText(ComposeActivity.this, "Saving post. Please wait", Toast.LENGTH_SHORT).show();
                 UserPost userPost = new UserPost();
                 userPost.setDescription(description);
-                userPost.setImage(new ParseFile(photoFile));
+                userPost.setImage(f);
                 userPost.setUser(currentUser);
                 userPost.saveInBackground(new SaveCallback() {
                     @Override
@@ -76,11 +86,13 @@ public class ComposeActivity extends AppCompatActivity {
                         }
                         if (photoFile == null || ivPostImage.getDrawable() ==null){
                             Toast.makeText(ComposeActivity.this,"There is no image!",Toast.LENGTH_SHORT).show();
+                            btnSubmit.setClickable(true);
                             return;
                         }
                         etDescription.setText("");
                         ivPostImage.setImageResource(0);
-                        //hideProgressBar();
+                        btnSubmit.setClickable(true);
+                        finish();
                     }
                 });
             }
@@ -100,7 +112,6 @@ public class ComposeActivity extends AppCompatActivity {
 
         photoFile = getPhotoFileUri(photoFileName);
 
-
         Uri fileProvider = FileProvider.getUriForFile(ComposeActivity.this, "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
@@ -119,7 +130,6 @@ public class ComposeActivity extends AppCompatActivity {
                 // RESIZE BITMAP, see section below
                 // Load the taken image into a preview
                 ivPostImage.setImageBitmap(takenImage);
-            } else { // Result was a failure
                 Toast.makeText(ComposeActivity.this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
@@ -135,6 +145,7 @@ public class ComposeActivity extends AppCompatActivity {
 
         // Return the file target for the photo based on filename
         File file = new File(mediaStorageDir.getPath() + File.separator + photoFileName);
+        f = new ParseFile(file);
 
         return file;
     }

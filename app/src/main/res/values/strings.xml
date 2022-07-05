@@ -12,5 +12,8 @@
     <string name="send_a_message">Send a Message</string>
     <string name="profile_me">My Profile Pic</string>
     <string name="profile_other">Other profile pic</string>
+    <string name="take_picture">Take Picture</string>
+    <string name="post_description">Post Description....</string>
+    <string name="submit">Submit</string>
 
 </resources>

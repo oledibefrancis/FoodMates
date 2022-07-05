@@ -3,17 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/btnLogout"
-        app:showAsAction="always"
-        android:icon="@android:drawable/ic_menu_set_as"
-        android:title="LogOut"
+        android:id="@+id/search"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="AddPost"
+        app:actionViewClass="android.widget.SearchView"
+       />
 
+    <item
+        android:id="@+id/addPost"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_baseline_add_24"
+        android:title="AddPost"
         />
-<!--    <item-->
-<!--        android:id="@+id/miActionProgress"-->
-<!--        android:title="Loading..."-->
-<!--        android:visible="false"-->
-<!--        android:orderInCategory="1"-->
-<!--        app:showAsAction="always"-->
-<!--        app:actionLayout="@layout/action_view_progress" />-->
+    <item
+        android:id="@+id/drawerIcon"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_round_menu_24"
+        android:title="AddPost"
+        />
+
+
+
 </menu>

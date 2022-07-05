@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment {
 
         foods = new ArrayList<>();
         userPosts = new ArrayList<>();
-
+        foodAdapter = new FoodAdapter(getContext(), foods);
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(API_URL, new JsonHttpResponseHandler() {
@@ -108,7 +108,7 @@ public class HomeFragment extends Fragment {
                 try {
                     JSONArray results = jsonObject.getJSONArray("results");
                     foods.addAll(Food.fromJsonArray(results));
-                    foodAdapter = new FoodAdapter(getContext(), foods,userPosts);
+                    foodAdapter = new FoodAdapter(getContext(), foods);
                     rvHomeFeeds.setAdapter(foodAdapter);
                     rvHomeFeeds.setLayoutManager(new LinearLayoutManager(getContext()));
                     //foodAdapter.notifyDataSetChanged();
@@ -146,7 +146,6 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 foodAdapter.getFilter().filter(newText);
-
                 return false;
             }
         });
@@ -188,8 +187,6 @@ public class HomeFragment extends Fragment {
                 for (UserPost userPost : allUserPosts){
                     Log.i(TAG,"Post: " + userPost.getDescription());
                 }
-//                userPosts.addAll(allUserPosts);
-                foodAdapter.addAll(allUserPosts);
             }
         });
 

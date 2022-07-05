@@ -14,21 +14,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.foodmates.Models.UserPost;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> implements Filterable {
     Context context;
     List<Food> foods;
-    List<UserPost> userPosts;
     List<Food> feedsToShow;
 
-    public FoodAdapter(Context context, List<Food> foods, List<UserPost> userPosts) {
+    public FoodAdapter(Context context, List<Food> foods) {
         this.context = context;
         this.foods = foods;
-        this.userPosts = userPosts;
         feedsToShow = new ArrayList<>(foods);
     }
 
@@ -53,11 +49,6 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
     @Override
     public Filter getFilter() {
         return fliterexample;
-    }
-
-    public void addAll(List<UserPost> list) {
-        userPosts.addAll(list);
-        notifyDataSetChanged();
     }
 
 

@@ -14,5 +14,5 @@ dependencyResolutionManagement {
 
     }
 }
-rootProject.name = "CareerMatch"
+rootProject.name = "FoodMates"
 include ':app'
