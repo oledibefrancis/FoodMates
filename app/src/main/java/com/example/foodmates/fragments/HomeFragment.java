@@ -40,7 +40,7 @@ import okhttp3.Headers;
 
 
 public class HomeFragment extends Fragment {
-    public static final String API_URL = "https://api.spoonacular.com/recipes/complexSearch?apiKey=66ed036507b74261af45f98c30aa8f69";
+    public static final String API_URL = "https://api.spoonacular.com/recipes/complexSearch?apiKey=8cf7ac7ac6f449e49a93e9cf5576c873";
     public final static int REQUEST_CODE = 2031;
     List<Food> foods;
     List<UserPost> userPosts;

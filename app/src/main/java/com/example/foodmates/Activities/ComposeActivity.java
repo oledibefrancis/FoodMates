@@ -54,7 +54,6 @@ public class ComposeActivity extends AppCompatActivity {
         btnCaptureImage = findViewById(R.id.btnCaptureImage);
         btnSubmit = findViewById(R.id.btnSubmit);
         ivPostImage = findViewById(R.id.ivPostImage);
-        btnSubmit.setClickable(true);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
