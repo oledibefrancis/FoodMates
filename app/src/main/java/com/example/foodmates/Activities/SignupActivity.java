@@ -1,4 +1,4 @@
-package com.example.foodmates;
+package com.example.foodmates.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.foodmates.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -68,7 +69,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void goUserInterest() {
-        Intent intent = new Intent(this, UserInterest.class);
+        Intent intent = new Intent(this, UserInterestActivity.class);
         startActivity(intent);
         finish();
     }

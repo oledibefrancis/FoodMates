@@ -1,4 +1,4 @@
-package com.example.foodmates;
+package com.example.foodmates.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.foodmates.R;
 import com.example.foodmates.fragments.ChatFragment;
 import com.example.foodmates.fragments.HomeFragment;
 import com.example.foodmates.fragments.ProfileFragment;

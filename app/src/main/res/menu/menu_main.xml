@@ -16,12 +16,20 @@
         android:icon="@drawable/ic_baseline_add_24"
         android:title="AddPost"
         />
+
+
     <item
-        android:id="@+id/drawerIcon"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_round_menu_24"
-        android:title="AddPost"
-        />
+            android:title="Filter1" />
+    <item
+        android:title="Filter2" />
+    <item
+        android:title="Filter3" />
+    <item
+        android:title="Filter4" />
+
+
+
+
 
 
 

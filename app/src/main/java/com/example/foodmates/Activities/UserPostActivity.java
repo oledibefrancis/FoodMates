@@ -10,7 +10,7 @@ import android.util.Log;
 
 import com.example.foodmates.Models.UserPost;
 import com.example.foodmates.R;
-import com.example.foodmates.UserPostAdapter;
+import com.example.foodmates.Adapters.UserPostAdapter;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;

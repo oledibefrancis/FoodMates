@@ -1,4 +1,4 @@
-package com.example.foodmates;
+package com.example.foodmates.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,18 +6,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.foodmates.R;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
-public class UserInterest extends SignupActivity {
+public class UserInterestActivity extends SignupActivity {
 
     EditText interest1;
     EditText interest2;
     EditText interest3;
     Button btnSubmit;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,30 +36,23 @@ public class UserInterest extends SignupActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserInterest.this, MainActivity.class);
+                Intent intent = new Intent(UserInterestActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
         });
     }
 
-
-    //saves the user interest in a database
     private void getUserInterest(String interest1, String interest2, String interest3) {
         ParseObject interest = new ParseObject("Interest");
-    // Store an object
         interest.put("FirstChoice", interest1);
         interest.put("SecondChoice", interest2);
         interest.put("ThirdChoice", interest3);
-
-    // Saving object
         interest.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    // Success
                 } else {
-                    // Error
                 }
             }
         });

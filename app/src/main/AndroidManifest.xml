@@ -43,20 +43,20 @@
             android:name=".Activities.ComposeActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.foodmates.UserInterest"
+            android:name="com.example.foodmates.Activities.UserInterestActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.foodmates.LoginActivity"
+            android:name="com.example.foodmates.Activities.LoginActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.foodmates.MainActivity"
+            android:name="com.example.foodmates.Activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.foodmates.SignupActivity"
+            android:name="com.example.foodmates.Activities.SignupActivity"
             android:exported="false"
             android:label="@string/title_activity_login" />
         <activity
-            android:name="com.example.foodmates.SplashScreenActivity"
+            android:name="com.example.foodmates.Activities.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

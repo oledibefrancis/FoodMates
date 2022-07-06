@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.example.foodmates.Models.Message;
 import com.example.foodmates.R;
-import com.example.foodmates.chatAdapter;
+import com.example.foodmates.Adapters.chatAdapter;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
@@ -35,16 +35,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChatFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ChatFragment extends Fragment {
 
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private static final String TAG = HomeFragment.class.getSimpleName();
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 100;
     static final String USER_ID_KEY = "userId";
@@ -56,37 +49,18 @@ public class ChatFragment extends Fragment {
     protected List<Message> mMessages;
     Boolean mFirstLoad;
 
-    ;
-
-    private String mParam1;
-    private String mParam2;
-
     public ChatFragment() {
-        // Required empty public constructor
     }
 
-    public static ChatFragment newInstance(String param1, String param2) {
-        ChatFragment fragment = new ChatFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_chat, container, false);
     }
 
@@ -97,7 +71,6 @@ public class ChatFragment extends Fragment {
 
         if (ParseUser.getCurrentUser() != null){
             startWithCurrentUser();
-//            setupMessagePosting();
         }
         else {
             login();

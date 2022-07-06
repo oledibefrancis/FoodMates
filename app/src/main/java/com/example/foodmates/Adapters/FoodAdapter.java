@@ -1,4 +1,4 @@
-package com.example.foodmates;
+package com.example.foodmates.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.foodmates.Models.Food;
+import com.example.foodmates.R;
 
 import java.util.ArrayList;
 import java.util.List;

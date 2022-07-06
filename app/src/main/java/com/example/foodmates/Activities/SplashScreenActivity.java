@@ -1,10 +1,12 @@
-package com.example.foodmates;
+package com.example.foodmates.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.example.foodmates.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 

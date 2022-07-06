@@ -1,4 +1,4 @@
-package com.example.foodmates;
+package com.example.foodmates.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.foodmates.Models.Message;
+import com.example.foodmates.R;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -107,7 +108,7 @@ public class chatAdapter extends RecyclerView.Adapter<chatAdapter.MessageViewHol
         public void bindMessage(Message message) {
             Glide.with(mContext)
                     .load(getProfileUrl(message.getUserId()))
-                    .circleCrop() // create an effect of a round profile picture
+                    .circleCrop()
                     .into(imageOther);
             body.setText(message.getBody());
             name.setText(message.getUserId());
@@ -128,7 +129,7 @@ public class chatAdapter extends RecyclerView.Adapter<chatAdapter.MessageViewHol
         public void bindMessage(Message message) {
             Glide.with(mContext)
                     .load(getProfileUrl(message.getUserId()))
-                    .circleCrop() // create an effect of a round profile picture
+                    .circleCrop()
                     .into(imageMe);
             body.setText(message.getBody());        }
     }
