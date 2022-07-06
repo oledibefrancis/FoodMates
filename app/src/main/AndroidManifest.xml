@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <queries>
+
         <!-- Camera -->
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
@@ -24,6 +25,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CareerMatch"
         tools:targetApi="31">
+        <activity
+            android:name=".Activities.UserPostActivity"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.codepath.fileprovider"
@@ -35,7 +40,7 @@
         </provider>
 
         <activity
-            android:name="com.example.foodmates.Activities.ComposeActivity"
+            android:name=".Activities.ComposeActivity"
             android:exported="false" />
         <activity
             android:name="com.example.foodmates.UserInterest"

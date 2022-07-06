@@ -11,6 +11,8 @@ public class UserPost extends ParseObject {
     public static final String  KEY_DESCRIPTION = "description";
     public static final String  KEY_IMAGE = "image";
     public static final String  KEY_USER = "user";
+    public static final String  KEY_TITLE ="title";
+
 
     public UserPost() {//default constructor
     }
@@ -33,5 +35,7 @@ public class UserPost extends ParseObject {
     public void setUser(ParseUser user){
         put(KEY_USER,user);
     }
+    public String getKeyTitle(){return getString(KEY_TITLE);};
+    public void setTitle(String title){put(KEY_TITLE,title);}
 }
 

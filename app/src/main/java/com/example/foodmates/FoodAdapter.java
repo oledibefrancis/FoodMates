@@ -2,7 +2,6 @@ package com.example.foodmates;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -19,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.foodmates.Models.Food;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.foodmates;
+package com.example.foodmates.Models;
 
 import org.json.JSONArray;
 import org.json.JSONException;

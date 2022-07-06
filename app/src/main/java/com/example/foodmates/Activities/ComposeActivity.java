@@ -43,7 +43,7 @@ public class ComposeActivity extends AppCompatActivity {
     ImageView ivPostImage;
     public String photoFileName = "photo.jpg";
     private File photoFile;
-    private ParseFile f;
+    private ParseFile image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class ComposeActivity extends AppCompatActivity {
                 Toast.makeText(ComposeActivity.this, "Saving post. Please wait", Toast.LENGTH_SHORT).show();
                 UserPost userPost = new UserPost();
                 userPost.setDescription(description);
-                userPost.setImage(f);
+                userPost.setImage(image);
                 userPost.setUser(currentUser);
                 userPost.saveInBackground(new SaveCallback() {
                     @Override
@@ -144,7 +144,7 @@ public class ComposeActivity extends AppCompatActivity {
 
         // Return the file target for the photo based on filename
         File file = new File(mediaStorageDir.getPath() + File.separator + photoFileName);
-        f = new ParseFile(file);
+        image = new ParseFile(file);
 
         return file;
     }
