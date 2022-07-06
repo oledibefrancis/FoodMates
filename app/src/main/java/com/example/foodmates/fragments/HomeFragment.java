@@ -21,10 +21,12 @@ import android.widget.SearchView;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.foodmates.Activities.ComposeActivity;
-import com.example.foodmates.Food;
-import com.example.foodmates.FoodAdapter;
+import com.example.foodmates.Activities.UserPostActivity;
+import com.example.foodmates.Models.Food;
+import com.example.foodmates.Adapters.FoodAdapter;
 import com.example.foodmates.Models.UserPost;
 import com.example.foodmates.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -46,38 +48,19 @@ public class HomeFragment extends Fragment {
     List<UserPost> userPosts;
     RecyclerView rvHomeFeeds;
     android.widget.Toolbar tbHome;
-
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    FloatingActionButton userPostBtn;
     private static final String TAG = "HomeFragment";
     FoodAdapter foodAdapter;
-
-    private String mParam1;
-    private String mParam2;
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-        // Setup the toolbar
         requireActivity().setActionBar(tbHome);
         setHasOptionsMenu(true);
     }
@@ -85,7 +68,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -94,6 +76,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvHomeFeeds = view.findViewById(R.id.rvHomeFeeds);
         tbHome = view.findViewById(R.id.tbHome);
+        userPostBtn = view.findViewById(R.id.userPostBtn);
 
         foods = new ArrayList<>();
         userPosts = new ArrayList<>();
@@ -125,6 +108,14 @@ public class HomeFragment extends Fragment {
 
       //  queryPosts();
 
+        userPostBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), UserPostActivity.class);
+                startActivity(intent);
+            }
+        });
+
 }
 
     @Override
@@ -151,7 +142,14 @@ public class HomeFragment extends Fragment {
         });
         super.onCreateOptionsMenu(menu, inflater);
     }
-
+//
+//    private boolean getRecipes(String searchValue) {
+//        FoodClient client = new FoodClient();
+//        client.getIngredients(selectedDiet, selectedMeal, searchValue, new ConnectivityManager.NetworkCallback<List<Food>>(){
+//
+//        });
+//        return false;
+//    }
 
     public void onCompose(){
         Intent intent = new Intent(getContext(), ComposeActivity.class);
@@ -175,7 +173,6 @@ public class HomeFragment extends Fragment {
         ParseQuery<UserPost> query = ParseQuery.getQuery(UserPost .class);
         query.include(UserPost.KEY_USER);
         query.setLimit(20);
-        // order posts by creation date (newest first)
         query.addDescendingOrder(UserPost.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<UserPost>() {
             @Override
