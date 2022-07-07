@@ -42,6 +42,7 @@ import okhttp3.Headers;
 
 
 public class HomeFragment extends Fragment {
+    public static final String API_URL2 = "https://api.spoonacular.com/recipes/findByNutrients?apiKey=66ed036507b74261af45f98c30aa8f69&minCarbs=10&maxCarbs=50&number=100";
     public static final String API_URL = "https://api.spoonacular.com/recipes/complexSearch?apiKey=8cf7ac7ac6f449e49a93e9cf5576c873";
     public final static int REQUEST_CODE = 2031;
     List<Food> foods;
@@ -55,7 +56,6 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -83,30 +83,32 @@ public class HomeFragment extends Fragment {
         foodAdapter = new FoodAdapter(getContext(), foods);
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(API_URL, new JsonHttpResponseHandler() {
+        client.get(API_URL2, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess: " + json.toString());
-                JSONObject jsonObject = json.jsonObject;
+                JSONArray jsonArray = json.jsonArray;
+
                 try {
-                    JSONArray results = jsonObject.getJSONArray("results");
+                    JSONArray results = jsonArray;
                     foods.addAll(Food.fromJsonArray(results));
                     foodAdapter = new FoodAdapter(getContext(), foods);
                     rvHomeFeeds.setAdapter(foodAdapter);
                     rvHomeFeeds.setLayoutManager(new LinearLayoutManager(getContext()));
                     //foodAdapter.notifyDataSetChanged();
-                    Log.i(TAG,"Results:"+ results.toString());
+                    Log.i(TAG, "Results:" + results.toString());
                 } catch (JSONException e) {
                     Log.e("HomeFragment", "Error: " + e.toString());
                 }
             }
+
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(TAG,"Unable to load api",throwable );
+                Log.e(TAG, "Unable to load api", throwable);
             }
         });
 
-      //  queryPosts();
+        //  queryPosts();
 
         userPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,13 +118,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
-}
+    }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
 
         inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.menu_main,menu);
+        inflater.inflate(R.menu.menu_main, menu);
 
         MenuItem menuItem = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) menuItem.getActionView();
@@ -151,16 +153,16 @@ public class HomeFragment extends Fragment {
 //        return false;
 //    }
 
-    public void onCompose(){
+    public void onCompose() {
         Intent intent = new Intent(getContext(), ComposeActivity.class);
-        startActivityForResult(intent,REQUEST_CODE);
+        startActivityForResult(intent, REQUEST_CODE);
     }
 
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if(item.getItemId()==R.id.addPost){
+        if (item.getItemId() == R.id.addPost) {
             onCompose();
             return true;
         }
@@ -169,24 +171,24 @@ public class HomeFragment extends Fragment {
     }
 
 
-    private void queryPosts(){
-        ParseQuery<UserPost> query = ParseQuery.getQuery(UserPost .class);
+    private void queryPosts() {
+        ParseQuery<UserPost> query = ParseQuery.getQuery(UserPost.class);
         query.include(UserPost.KEY_USER);
         query.setLimit(20);
         query.addDescendingOrder(UserPost.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<UserPost>() {
             @Override
             public void done(List<UserPost> allUserPosts, ParseException e) {
-                if(e != null){
-                    Log.e(TAG,"Issue with getting posts",e);
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting posts", e);
                     return;
                 }
-                for (UserPost userPost : allUserPosts){
-                    Log.i(TAG,"Post: " + userPost.getDescription());
+                for (UserPost userPost : allUserPosts) {
+                    Log.i(TAG, "Post: " + userPost.getDescription());
                 }
             }
         });
 
     }
-
 }
+
