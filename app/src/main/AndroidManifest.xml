@@ -26,7 +26,7 @@
         android:theme="@style/Theme.CareerMatch"
         tools:targetApi="31">
         <activity
-            android:name=".DetailsActivity"
+            android:name=".Activities.FoodDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.UserPostActivity"
@@ -46,20 +46,20 @@
             android:name=".Activities.ComposeActivity"
             android:exported="false" />
         <activity
-            android:name=".UserInterestActivity"
+            android:name=".Activities.UserInterestActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".SignupActivity"
+            android:name=".Activities.SignupActivity"
             android:exported="false"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".Activities.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

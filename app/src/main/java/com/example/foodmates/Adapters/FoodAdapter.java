@@ -2,6 +2,7 @@ package com.example.foodmates.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -18,8 +19,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.foodmates.Activities.FoodDetailsActivity;
 import com.example.foodmates.Models.Food;
 import com.example.foodmates.R;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +33,10 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
     List<Food> foods;
     List<Food> feedsToShow;
     ImageView btnLike;
+    ImageView btnLiked;
     ImageView btnSave;
+    ImageView btnSaved;
+
 
     public FoodAdapter(Context context, List<Food> foods) {
         this.context = context;
@@ -48,6 +55,14 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Food food  = foods.get(position);
         holder.bind(food);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, FoodDetailsActivity.class);
+                intent.putExtra(Food.class.getSimpleName(), Parcels.wrap(food));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -61,7 +76,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
     }
 
 
-    public  class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public  class ViewHolder extends RecyclerView.ViewHolder{
         TextView foodTitle;
         ImageView foodImage;
 
@@ -71,7 +86,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
             foodImage = itemView.findViewById(R.id.foodImage);
             btnLike = itemView.findViewById(R.id.btnLike);
             btnSave = itemView.findViewById(R.id.btnSave);
-            itemView.setOnClickListener(this);
+            btnLiked = itemView.findViewById(R.id.btnLiked);
+            btnSaved = itemView.findViewById(R.id.btnSaved);
+//            itemView.setOnClickListener(this);
 
         }
 
@@ -80,12 +97,25 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
             String imageUrl;
             imageUrl = food.getImageurl();
             Glide.with(context).load((imageUrl)).into(foodImage);
+            itemView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, FoodDetailsActivity.class);
+                    intent.putExtra(Food.class.getSimpleName(), Parcels.wrap(food));
+                    context.startActivity(intent);
+                }
+            });
+
 
             btnLike.setOnTouchListener(new View.OnTouchListener() {
-                GestureDetector gestureDetector = new GestureDetector(context.getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
-                    @Override
+                    GestureDetector gestureDetector = new GestureDetector(itemView.getContext(), new GestureDetector.SimpleOnGestureListener(){
+
+                        @Override
                     public boolean onDoubleTap(MotionEvent e) {
                         Toast.makeText(context, "Double tap", Toast.LENGTH_SHORT).show();
+                            btnLiked.setVisibility(View.VISIBLE);
+                            btnLike.setVisibility(View.GONE);
                         return super.onDoubleTap(e);
                     }
                 });
@@ -98,11 +128,11 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
 
             btnSave.setOnTouchListener(new View.OnTouchListener() {
                 @SuppressLint("ClickableViewAccessibility")
-                GestureDetector gestureDetector = new GestureDetector(context.getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
+                GestureDetector gestureDetector = new GestureDetector(itemView.getContext(), new GestureDetector.SimpleOnGestureListener(){
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
-                        Toast.makeText(context, "Second Double tap", Toast.LENGTH_SHORT).show();
-
+                        btnSaved.setVisibility(View.VISIBLE);
+                        btnSave.setVisibility(View.GONE);
                         return super.onDoubleTap(e);
                     }
                 });
@@ -113,12 +143,6 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
                 }
             });
 
-        }
-
-
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(context, "hello", Toast.LENGTH_SHORT).show();
         }
 
     }
