@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.foodmates.Activities.FoodDetailsActivity;
 import com.example.foodmates.Models.Food;
+import com.example.foodmates.Models.UserPost;
 import com.example.foodmates.R;
 
 import org.parceler.Parcels;
@@ -73,6 +74,16 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
     @Override
     public Filter getFilter() {
         return fliterexample;
+    }
+
+    public void clear() {
+        foods.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<Food> list) {
+        foods.addAll(list);
+        notifyDataSetChanged();
     }
 
 

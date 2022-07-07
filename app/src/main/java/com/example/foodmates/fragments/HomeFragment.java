@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,6 +53,7 @@ public class HomeFragment extends Fragment {
     FloatingActionButton userPostBtn;
     private static final String TAG = "HomeFragment";
     FoodAdapter foodAdapter;
+    SwipeRefreshLayout swipeContainer;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -117,6 +119,19 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchFeeds();
+                queryPosts();
+            }
+        });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
     }
 
@@ -189,6 +204,12 @@ public class HomeFragment extends Fragment {
             }
         });
 
+    }
+
+    private void fetchFeeds() {
+        foodAdapter.clear();
+        foodAdapter.addAll(foods);
+        swipeContainer.setRefreshing(false);
     }
 }
 
