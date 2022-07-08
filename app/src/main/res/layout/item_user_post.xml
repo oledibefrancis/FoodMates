@@ -70,26 +70,35 @@ android:layout_height="wrap_content">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:clickable="true"
                 android:src="@drawable/ic_baseline_favorite_border_24"/>
-            <ImageView
-                android:id="@+id/btnSave"
-                android:layout_marginStart="325dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_bookmark_border_24"/>
+
 
             <ImageView
                 android:id="@+id/btnLiked"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_favorite_24"
-                />
+                android:layout_marginStart="-25dp"
+                android:clickable="true"
+                android:visibility="invisible"
+                android:src="@drawable/ic_baseline_favorite_24"/>
+
             <ImageView
-                android:id="@+id/btnSaved"
+                android:id="@+id/btnSave"
+                android:layout_marginStart="325dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_bookmark_24"
-                />
+                android:clickable="true"
+                android:src="@drawable/ic_baseline_bookmark_border_24"/>
+
+            <ImageView
+                android:id="@+id/btnSaved"
+                android:layout_marginStart="-25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:clickable="true"
+                android:src="@drawable/ic_baseline_bookmark_24"/>
 
         </LinearLayout>
 

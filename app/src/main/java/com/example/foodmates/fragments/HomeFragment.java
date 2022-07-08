@@ -43,7 +43,7 @@ import okhttp3.Headers;
 
 
 public class HomeFragment extends Fragment {
-    public static final String API_URL2 = "https://api.spoonacular.com/recipes/findByNutrients?apiKey=66ed036507b74261af45f98c30aa8f69&minCarbs=10&maxCarbs=50&number=100";
+    public static final String API_URL2 = "https://api.spoonacular.com/recipes/findByNutrients?apiKey=8cf7ac7ac6f449e49a93e9cf5576c873&minCarbs=10&maxCarbs=50&number=100";
     public static final String API_URL = "https://api.spoonacular.com/recipes/complexSearch?apiKey=8cf7ac7ac6f449e49a93e9cf5576c873";
     public final static int REQUEST_CODE = 2031;
     List<Food> foods;
@@ -83,7 +83,6 @@ public class HomeFragment extends Fragment {
         foods = new ArrayList<>();
         userPosts = new ArrayList<>();
         foodAdapter = new FoodAdapter(getContext(), foods);
-
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(API_URL2, new JsonHttpResponseHandler() {
             @Override
@@ -97,7 +96,7 @@ public class HomeFragment extends Fragment {
                     foodAdapter = new FoodAdapter(getContext(), foods);
                     rvHomeFeeds.setAdapter(foodAdapter);
                     rvHomeFeeds.setLayoutManager(new LinearLayoutManager(getContext()));
-                    //foodAdapter.notifyDataSetChanged();
+                    foodAdapter.notifyDataSetChanged();
                     Log.i(TAG, "Results:" + results.toString());
                 } catch (JSONException e) {
                     Log.e("HomeFragment", "Error: " + e.toString());
@@ -125,7 +124,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onRefresh() {
                 fetchFeeds();
-                queryPosts();
             }
         });
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -137,41 +135,74 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
 
         inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
 
-        MenuItem menuItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setQueryHint("Type here to search...");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                getRecipes(query);
+                foods.clear();//clear array before adding result
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                foodAdapter.getFilter().filter(newText);
+//                foodAdapter.getFilter().filter(newText);
                 return false;
             }
         });
-        super.onCreateOptionsMenu(menu, inflater);
+
+
+
     }
-//
-//    private boolean getRecipes(String searchValue) {
-//        FoodClient client = new FoodClient();
-//        client.getIngredients(selectedDiet, selectedMeal, searchValue, new ConnectivityManager.NetworkCallback<List<Food>>(){
-//
-//        });
-//        return false;
-//    }
+
+    private boolean getRecipes(String searchValue) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(API_URL+"&query="+searchValue, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+
+                Log.d(TAG, "onSuccess: " + json.toString());
+                JSONObject jsonObject = json.jsonObject;
+
+//                JSONArray jsonArray = json.jsonArray;
+                try {
+                    JSONArray results = jsonObject.getJSONArray("results");
+                    Log.i(TAG, "Results: " + results);
+                    foods.addAll(Food.fromJsonArray(results));
+                    foodAdapter = new FoodAdapter(getContext(), foods);
+                    foodAdapter.notifyDataSetChanged();
+                    rvHomeFeeds.setAdapter(foodAdapter);
+                    rvHomeFeeds.setLayoutManager(new LinearLayoutManager(getContext()));
+                    Log.i(TAG, "food: " + foods.size());
+                } catch (JSONException e) {
+                    Log.e(TAG, "Hit json exception", e);
+                }
+
+            }
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.d(TAG, "onFailure");
+            }
+        });
+        return false;
+    }
+
+
 
     public void onCompose() {
         Intent intent = new Intent(getContext(), ComposeActivity.class);
         startActivityForResult(intent, REQUEST_CODE);
     }
+
+
 
 
     @Override

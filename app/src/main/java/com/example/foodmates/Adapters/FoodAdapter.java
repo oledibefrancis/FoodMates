@@ -1,6 +1,5 @@
 package com.example.foodmates.Adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.foodmates.Activities.FoodDetailsActivity;
 import com.example.foodmates.Models.Food;
-import com.example.foodmates.Models.UserPost;
 import com.example.foodmates.R;
 
 import org.parceler.Parcels;
@@ -33,11 +30,53 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
     Context context;
     List<Food> foods;
     List<Food> feedsToShow;
-    ImageView btnLike;
-    ImageView btnLiked;
-    ImageView btnSave;
-    ImageView btnSaved;
 
+
+    private Filter fliterexample = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            List<Food> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                //If the user does not enter anything, display the whole list
+                filteredList.addAll(foods);
+            } else {
+                //toLowercase makes it so that the search is not case sensitive
+                //trim takes away extra whitespaces
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                //iterate to see which post matched filterPattern
+                for (Food food : foods) {
+                    if (food.getTitle().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(food);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            results.count = filteredList.size();
+            return results;
+        }
+
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            feedsToShow.clear();
+            if (results.values == null) {
+                Log.e("PostsAdapter", "results.values is null");
+            } else {
+                feedsToShow.addAll((List) results.values);
+                Log.d("PostsAdapter", "Displaying " + results.count + " results through filter");
+            }
+            notifyDataSetChanged();
+        }
+    };
+//
+//    public FoodAdapter(Context context, List<FoodSearch> foodSearches){
+//        this.context = context;
+//        this.foods = foods;
+//    }
 
     public FoodAdapter(Context context, List<Food> foods) {
         this.context = context;
@@ -48,13 +87,13 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View foodView = LayoutInflater.from(context).inflate(R.layout.item_foods,parent,false);
+        View foodView = LayoutInflater.from(context).inflate(R.layout.item_foods, parent, false);
         return new ViewHolder(foodView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Food food  = foods.get(position);
+        Food food = foods.get(position);
         holder.bind(food);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,10 +125,13 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
         notifyDataSetChanged();
     }
 
-
-    public  class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView foodTitle;
         ImageView foodImage;
+        ImageView btnLike;
+        ImageView btnLiked;
+        ImageView btnSave;
+        ImageView btnSaved;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -99,7 +141,6 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
             btnSave = itemView.findViewById(R.id.btnSave);
             btnLiked = itemView.findViewById(R.id.btnLiked);
             btnSaved = itemView.findViewById(R.id.btnSaved);
-//            itemView.setOnClickListener(this);
 
         }
 
@@ -108,6 +149,19 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
             String imageUrl;
             imageUrl = food.getImageurl();
             Glide.with(context).load((imageUrl)).into(foodImage);
+            //Store the api details in a list and and then if a user likes a particular object, make the object id of that post to be true in the user liked list created to check if a post is liked or not
+            // If food.liked is true, then make the btnLiked visible, if
+            // false, make btn like visible
+//            if(food.like) {
+//                btnLiked.setVisibility(View.VISIBLE);
+//                btnLike.setVisibility(View.INVISIBLE);
+//            }
+//            else {
+//                btnLiked.setVisibility(View.INVISIBLE);
+//                btnLike.setVisibility(View.VISIBLE);
+//            }
+
+
             itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -118,35 +172,20 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
                 }
             });
 
-
             btnLike.setOnTouchListener(new View.OnTouchListener() {
-                    GestureDetector gestureDetector = new GestureDetector(itemView.getContext(), new GestureDetector.SimpleOnGestureListener(){
+                GestureDetector gestureDetector = new GestureDetector(itemView.getContext(), new GestureDetector.SimpleOnGestureListener() {
 
-                        @Override
-                    public boolean onDoubleTap(MotionEvent e) {
-                        Toast.makeText(context, "Double tap", Toast.LENGTH_SHORT).show();
-                            btnLiked.setVisibility(View.VISIBLE);
-                            btnLike.setVisibility(View.GONE);
-                        return super.onDoubleTap(e);
-                    }
-                });
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    gestureDetector.onTouchEvent(event );
-                    return false;
-                }
-            });
-
-            btnSave.setOnTouchListener(new View.OnTouchListener() {
-                @SuppressLint("ClickableViewAccessibility")
-                GestureDetector gestureDetector = new GestureDetector(itemView.getContext(), new GestureDetector.SimpleOnGestureListener(){
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
-                        btnSaved.setVisibility(View.VISIBLE);
-                        btnSave.setVisibility(View.GONE);
+                        btnLiked.setVisibility(View.VISIBLE);
+                        btnLike.setVisibility(View.INVISIBLE);
+
+                        // In the backend, update the state of liked.
+                        //
                         return super.onDoubleTap(e);
                     }
                 });
+
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     gestureDetector.onTouchEvent(event);
@@ -154,52 +193,46 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
                 }
             });
 
+            btnLiked.setOnTouchListener(new View.OnTouchListener() {
+                GestureDetector gestureDetector = new GestureDetector(itemView.getContext(), new GestureDetector.SimpleOnGestureListener() {
+
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                        btnLike.setVisibility(View.VISIBLE);
+                        btnLiked.setVisibility(View.INVISIBLE);
+                        return super.onDoubleTap(e);
+                    }
+                });
+
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    gestureDetector.onTouchEvent(event);
+                    return false;
+                }
+            });
+
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    btnSaved.setVisibility(View.VISIBLE);
+                    btnSave.setVisibility(View.INVISIBLE);
+                    //a reference in the profile that stores object id of post the user saved
+                    //when ever the click the save button you add the object to the list and when the unsave it removes the object from the list
+                    //
+                }
+            });
+            btnSaved.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    btnSave.setVisibility(View.VISIBLE);
+                    btnSaved.setVisibility(View.INVISIBLE);
+                }
+            });
+
         }
+
 
     }
-
-
-    private Filter fliterexample = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-
-            List<Food> filteredList = new ArrayList<>();
-            if(constraint == null || constraint.length() == 0){
-                //If the user does not enter anything, display the whole list
-                filteredList.addAll(foods);
-            }
-            else{
-                //toLowercase makes it so that the search is not case sensitive
-                //trim takes away extra whitespaces
-                String filterPattern = constraint.toString().toLowerCase().trim();
-
-                //iterate to see which post matched filterPattern
-                for(Food food: foods){
-                    if(food.getTitle().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(food);
-                    }
-                }
-            }
-
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-            results.count = filteredList.size();
-            return results;
-        }
-
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            feedsToShow.clear();
-            if (results.values == null) {
-                Log.e("PostsAdapter", "results.values is null");
-            } else {
-                feedsToShow.addAll((List) results.values);
-                Log.d("PostsAdapter", "Displaying " + results.count + " results through filter");
-            }
-            notifyDataSetChanged();
-        }
-    };
 
 
 }

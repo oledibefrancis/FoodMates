@@ -24,10 +24,10 @@ public class Food {
         Food food = new Food();
         food.title = jsonObject.getString("title");
         food.imageurl = jsonObject.getString("image");
-        food.calories = jsonObject.getString("calories");
-        food.carbs = jsonObject.getString("carbs");
-        food.fat = jsonObject.getString("fat");
-        food.protein = jsonObject.getString("protein");
+//        food.calories = jsonObject.getString("calories");
+//        food.carbs = jsonObject.getString("carbs");
+//        food.fat = jsonObject.getString("fat");
+//        food.protein = jsonObject.getString("protein");
         return food;
     }
 
@@ -50,4 +50,8 @@ public class Food {
     public String getFat(){return fat;}
 
     public String getProtein(){ return protein; }
+
+    //create a class to store api information
+    //store title, imageurl or other details as columns or stores as an array for each title
+    //use getTtile with the class put statement to store the details in the parse database
 }
