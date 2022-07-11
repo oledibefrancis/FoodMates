@@ -104,17 +104,37 @@
         app:layout_constraintStart_toStartOf="@+id/etEmail"
         app:layout_constraintTop_toBottomOf="@+id/etEmail" />
 
-    <EditText
+    <TextView
         android:id="@+id/etBirthDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="36dp"
         android:layout_margin="30dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="01/01/1999"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/etContact"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/etContact"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etContact" />
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="300dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="#575656"
+        app:layout_constraintStart_toStartOf="@+id/etBirthDate"
+        app:layout_constraintTop_toBottomOf="@id/etBirthDate" />
+
+    <ImageView
+        android:id="@+id/iconDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/etBirthDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toEndOf="@+id/etBirthDate"
+        app:layout_constraintTop_toTopOf="@+id/etBirthDate"
+        app:layout_constraintVertical_bias="0.421"
+        app:srcCompat="@drawable/ic_baseline_calendar_today_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
