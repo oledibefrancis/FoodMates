@@ -37,7 +37,7 @@ public class FoodDetailsActivity extends AppCompatActivity {
         calories = (TextView) findViewById(R.id.calories);
 
         food = (Food) Parcels.unwrap(getIntent().getParcelableExtra(Food.class.getSimpleName()));
-        Log.d(TAG,String.format("Showing details for '%s'", food.getTitle()));
+//        Log.d(TAG,String.format("Showing details for '%s'", food.getTitle()));
 
         Glide.with(this).load((food.imageurl)).into(foodImage);
         foodTitle.setText(food.getTitle());

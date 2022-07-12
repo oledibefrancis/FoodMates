@@ -16,6 +16,7 @@ public class Food {
     public String carbs;
     public String fat;
     public String protein;
+    List<Post> posts;
 
     public Food() {
     }
@@ -24,6 +25,7 @@ public class Food {
         Food food = new Food();
         food.title = jsonObject.getString("title");
         food.imageurl = jsonObject.getString("image");
+        //TODO
 //        food.calories = jsonObject.getString("calories");
 //        food.carbs = jsonObject.getString("carbs");
 //        food.fat = jsonObject.getString("fat");
@@ -38,6 +40,7 @@ public class Food {
          }
          return foods;
     }
+
 
     public  String getTitle(){return title;}
 

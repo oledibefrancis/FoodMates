@@ -32,7 +32,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
     List<Food> feedsToShow;
 
 
-    private Filter fliterexample = new Filter() {
+    private Filter fliterExample = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
@@ -72,11 +72,6 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
             notifyDataSetChanged();
         }
     };
-//
-//    public FoodAdapter(Context context, List<FoodSearch> foodSearches){
-//        this.context = context;
-//        this.foods = foods;
-//    }
 
     public FoodAdapter(Context context, List<Food> foods) {
         this.context = context;
@@ -112,7 +107,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
 
     @Override
     public Filter getFilter() {
-        return fliterexample;
+        return fliterExample;
     }
 
     public void clear() {
@@ -135,8 +130,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            foodTitle = itemView.findViewById(R.id.foodTitle);
-            foodImage = itemView.findViewById(R.id.foodImage);
+            foodTitle = itemView.findViewById(R.id.foodTitles);
+            foodImage = itemView.findViewById(R.id.foodImages);
             btnLike = itemView.findViewById(R.id.btnLike);
             btnSave = itemView.findViewById(R.id.btnSave);
             btnLiked = itemView.findViewById(R.id.btnLiked);
@@ -149,21 +144,21 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
             String imageUrl;
             imageUrl = food.getImageurl();
             Glide.with(context).load((imageUrl)).into(foodImage);
-            //Store the api details in a list and and then if a user likes a particular object, make the object id of that post to be true in the user liked list created to check if a post is liked or not
-            // If food.liked is true, then make the btnLiked visible, if
-            // false, make btn like visible
-//            if(food.like) {
-//                btnLiked.setVisibility(View.VISIBLE);
-//                btnLike.setVisibility(View.INVISIBLE);
-//            }
-//            else {
-//                btnLiked.setVisibility(View.INVISIBLE);
-//                btnLike.setVisibility(View.VISIBLE);
-//            }
+            // TODO:1 Store the api details in a list and and then if a user likes a particular object, make the object id of that post to be true in the user liked list created to check if a post is liked or not.
+            // TODO:2 If food.liked is true, then make the btnLiked visible, if.
+            // TODO: 3 false, make btn like visible.
+            //TODO 4 use the code below to implement this.
+            //            if(food.like) {
+            //                btnLiked.setVisibility(View.VISIBLE);
+            //                btnLike.setVisibility(View.INVISIBLE);
+            //            }
+            //            else {
+            //                btnLiked.setVisibility(View.INVISIBLE);
+            //                btnLike.setVisibility(View.VISIBLE);
+            //            }`
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, FoodDetailsActivity.class);
@@ -180,8 +175,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
                         btnLiked.setVisibility(View.VISIBLE);
                         btnLike.setVisibility(View.INVISIBLE);
 
-                        // In the backend, update the state of liked.
-                        //
+                        //TODO 1) In the backend, update the state of liked.
                         return super.onDoubleTap(e);
                     }
                 });
@@ -216,9 +210,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
                 public void onClick(View v) {
                     btnSaved.setVisibility(View.VISIBLE);
                     btnSave.setVisibility(View.INVISIBLE);
-                    //a reference in the profile that stores object id of post the user saved
-                    //when ever the click the save button you add the object to the list and when the unsave it removes the object from the list
-                    //
+                    //TODO 1) a reference in the profile that stores object id of post the user saved.
+                    //TODO 2) when ever the click the save button you add the object to the list and when the unsave it removes the object from the list.
                 }
             });
             btnSaved.setOnClickListener(new View.OnClickListener() {

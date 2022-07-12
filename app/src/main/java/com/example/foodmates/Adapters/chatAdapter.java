@@ -134,6 +134,4 @@ public class chatAdapter extends RecyclerView.Adapter<chatAdapter.MessageViewHol
             body.setText(message.getBody());        }
     }
 
-
-
 }

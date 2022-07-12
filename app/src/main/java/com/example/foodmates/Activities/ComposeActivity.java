@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,19 +19,14 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 //import com.example.careermatch.R;
-import com.example.foodmates.Models.UserPost;
+import com.example.foodmates.Models.Post;
 import com.example.foodmates.R;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class ComposeActivity extends AppCompatActivity {
     public static final String  TAG = "ComposeActivity";
@@ -41,9 +35,11 @@ public class ComposeActivity extends AppCompatActivity {
     Button btnCaptureImage;
     Button btnSubmit;
     ImageView ivPostImage;
+    EditText etTitle;
     public String photoFileName = "photo.jpg";
     private File photoFile;
     private ParseFile image;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +50,7 @@ public class ComposeActivity extends AppCompatActivity {
         btnCaptureImage = findViewById(R.id.btnCaptureImage);
         btnSubmit = findViewById(R.id.btnSubmit);
         ivPostImage = findViewById(R.id.ivPostImage);
+        etTitle = findViewById(R.id.etTitle);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,27 +58,30 @@ public class ComposeActivity extends AppCompatActivity {
                 btnSubmit.setClickable(false);
 
                 String description = etDescription.getText().toString();
+                String title = etTitle.getText().toString();
                 if (description.isEmpty()){
                     Toast.makeText( ComposeActivity.this,"Description cannot be empty",Toast.LENGTH_SHORT).show();
                     btnSubmit.setClickable(true);
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                savePost(description,currentUser,photoFile);
+                savePost(description,currentUser,photoFile,title);
             }
 
-            private void savePost(String description, ParseUser currentUser, File photoFile) {
+            private void savePost(String description, ParseUser currentUser, File photoFile, String title) {
                 Toast.makeText(ComposeActivity.this, "Saving post. Please wait", Toast.LENGTH_SHORT).show();
-                UserPost userPost = new UserPost();
-                userPost.setDescription(description);
-                userPost.setImage(image);
-                userPost.setUser(currentUser);
-                userPost.saveInBackground(new SaveCallback() {
+                Post post = new Post();
+                post.setDescription(description);
+                post.setTitle(title);
+                post.setImage(image);
+                post.setUser(currentUser);
+                post.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e != null){
 
                             Toast.makeText(ComposeActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, e.toString());
                         }
                         if (photoFile == null || ivPostImage.getDrawable() ==null){
                             Toast.makeText(ComposeActivity.this,"There is no image!",Toast.LENGTH_SHORT).show();
@@ -89,6 +89,7 @@ public class ComposeActivity extends AppCompatActivity {
                             return;
                         }
                         etDescription.setText("");
+                        etTitle.setText("");
                         ivPostImage.setImageResource(0);
                         btnSubmit.setClickable(true);
                         finish();

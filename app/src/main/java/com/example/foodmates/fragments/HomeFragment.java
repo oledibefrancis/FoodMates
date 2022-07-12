@@ -18,19 +18,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.foodmates.Activities.ComposeActivity;
-import com.example.foodmates.Activities.UserPostActivity;
+import com.example.foodmates.Adapters.PostAdapter;
 import com.example.foodmates.Models.Food;
 import com.example.foodmates.Adapters.FoodAdapter;
-import com.example.foodmates.Models.UserPost;
+import com.example.foodmates.Models.Post;
 import com.example.foodmates.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,17 +45,18 @@ import okhttp3.Headers;
 
 
 public class HomeFragment extends Fragment {
-    public static final String API_URL2 = "https://api.spoonacular.com/recipes/findByNutrients?apiKey=8cf7ac7ac6f449e49a93e9cf5576c873&minCarbs=10&maxCarbs=50&number=100";
+    public static final String API_URL2 = "https://api.spoonacular.com/recipes/findByNutrients?apiKey=8cf7ac7ac6f449e49a93e9cf5576c873&minCarbs=10&maxCarbs=50&number=10";
     public static final String API_URL = "https://api.spoonacular.com/recipes/complexSearch?apiKey=8cf7ac7ac6f449e49a93e9cf5576c873";
     public final static int REQUEST_CODE = 2031;
+    List<Post> posts;
     List<Food> foods;
-    List<UserPost> userPosts;
     RecyclerView rvHomeFeeds;
     android.widget.Toolbar tbHome;
-    FloatingActionButton userPostBtn;
     private static final String TAG = "HomeFragment";
-    FoodAdapter foodAdapter;
+    PostAdapter postAdapter;
     SwipeRefreshLayout swipeContainer;
+    FoodAdapter foodAdapter;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -78,52 +81,21 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvHomeFeeds = view.findViewById(R.id.rvHomeFeeds);
         tbHome = view.findViewById(R.id.tbHome);
-        userPostBtn = view.findViewById(R.id.userPostBtn);
+//        apiCall();
 
-        foods = new ArrayList<>();
-        userPosts = new ArrayList<>();
-        foodAdapter = new FoodAdapter(getContext(), foods);
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(API_URL2, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.d(TAG, "onSuccess: " + json.toString());
-                JSONArray jsonArray = json.jsonArray;
+        posts = new ArrayList<>();
+        postAdapter = new PostAdapter(getContext(),posts);
+        rvHomeFeeds.setAdapter(postAdapter);
+        rvHomeFeeds.setLayoutManager(new LinearLayoutManager(getContext()));
+        queryPosts();
 
-                try {
-                    JSONArray results = jsonArray;
-                    foods.addAll(Food.fromJsonArray(results));
-                    foodAdapter = new FoodAdapter(getContext(), foods);
-                    rvHomeFeeds.setAdapter(foodAdapter);
-                    rvHomeFeeds.setLayoutManager(new LinearLayoutManager(getContext()));
-                    foodAdapter.notifyDataSetChanged();
-                    Log.i(TAG, "Results:" + results.toString());
-                } catch (JSONException e) {
-                    Log.e("HomeFragment", "Error: " + e.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(TAG, "Unable to load api", throwable);
-            }
-        });
-
-        //  queryPosts();
-
-        userPostBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), UserPostActivity.class);
-                startActivity(intent);
-            }
-        });
 
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 fetchFeeds();
+                queryPosts();
             }
         });
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -147,8 +119,8 @@ public class HomeFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                getRecipes(query);
-                foods.clear();//clear array before adding result
+                getSearchResults(query);
+                posts.clear();//clear array before adding result
                 return false;
             }
 
@@ -163,7 +135,18 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private boolean getRecipes(String searchValue) {
+    public static Food fromJson(JSONObject jsonObject) throws JSONException {
+        Food food = new Food();
+        food.title = jsonObject.getString("title");
+        food.imageurl = jsonObject.getString("image");
+//        food.calories = jsonObject.getString("calories");
+//        food.carbs = jsonObject.getString("carbs");
+//        food.fat = jsonObject.getString("fat");
+//        food.protein = jsonObject.getString("protein");
+        return food;
+    }
+
+    private boolean getSearchResults(String searchValue) {
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(API_URL+"&query="+searchValue, new JsonHttpResponseHandler() {
             @Override
@@ -171,13 +154,14 @@ public class HomeFragment extends Fragment {
 
                 Log.d(TAG, "onSuccess: " + json.toString());
                 JSONObject jsonObject = json.jsonObject;
-
+                foods = new ArrayList<>();
 //                JSONArray jsonArray = json.jsonArray;
                 try {
                     JSONArray results = jsonObject.getJSONArray("results");
                     Log.i(TAG, "Results: " + results);
                     foods.addAll(Food.fromJsonArray(results));
                     foodAdapter = new FoodAdapter(getContext(), foods);
+//                   saveInDataBase(results);
                     foodAdapter.notifyDataSetChanged();
                     rvHomeFeeds.setAdapter(foodAdapter);
                     rvHomeFeeds.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -195,6 +179,55 @@ public class HomeFragment extends Fragment {
         return false;
     }
 
+    private void saveInDataBase(JSONArray results) {
+        for (int i = 0 ; i <=results.length(); i++){
+            try {
+                foods.add(fromJson(results.getJSONObject(i)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Post post = new Post();
+            post.setTitle(foods.get(foods.size()-1).getTitle());
+            post.setImageUrl(foods.get(foods.size()-1).getImageurl());
+            post.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if(e == null){
+                        Toast.makeText(getActivity(), "Successfully saved api result to database", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Log.e(TAG,"Failed to save api result to database");
+                        Log.e(TAG,e.toString());
+                    }
+                }
+            });
+        }
+    }
+
+    public void apiCall() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(API_URL2, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess: " + json.toString());
+                JSONArray jsonArray = json.jsonArray;
+                try {
+                    JSONArray results = jsonArray;
+                    foods = new ArrayList<>();
+                    foods.addAll(Food.fromJsonArray(results));
+                    Log.i(TAG, "Results: " + results.length());
+                    saveInDataBase(results);
+                } catch (JSONException e) {
+                    Log.e("HomeFragment", "Error Storing api data: " + e.toString());
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "Unable to load api", throwable);
+            }
+        });
+
+    }
 
 
     public void onCompose() {
@@ -217,30 +250,32 @@ public class HomeFragment extends Fragment {
     }
 
 
-    private void queryPosts() {
-        ParseQuery<UserPost> query = ParseQuery.getQuery(UserPost.class);
-        query.include(UserPost.KEY_USER);
-        query.setLimit(20);
-        query.addDescendingOrder(UserPost.KEY_CREATED_AT);
-        query.findInBackground(new FindCallback<UserPost>() {
+    private void fetchFeeds() {
+        postAdapter.clear();
+        postAdapter.addAll(posts);
+        swipeContainer.setRefreshing(false);
+    }
+
+    protected void queryPosts() {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.setLimit(50);
+        query.addDescendingOrder(Post.KEY_CREATED_AT);
+        query.findInBackground(new FindCallback<Post>() {
             @Override
-            public void done(List<UserPost> allUserPosts, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
+            public void done(List<Post> dataPosts, ParseException e) {
+                if(e != null){
+                    Log.e(TAG,"Issue with getting posts", e);
                     return;
                 }
-                for (UserPost userPost : allUserPosts) {
-                    Log.i(TAG, "Post: " + userPost.getDescription());
+                for(Post post : dataPosts){
+                    Log.i(TAG, "Post" + post.getKeyTitle());
                 }
+                posts.addAll(dataPosts);
+                postAdapter.notifyDataSetChanged();
             }
         });
 
-    }
-
-    private void fetchFeeds() {
-        foodAdapter.clear();
-        foodAdapter.addAll(foods);
-        swipeContainer.setRefreshing(false);
     }
 }
 

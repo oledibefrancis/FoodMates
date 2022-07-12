@@ -3,7 +3,7 @@ package com.example.foodmates;
 import android.app.Application;
 
 import com.example.foodmates.Models.Message;
-import com.example.foodmates.Models.UserPost;
+import com.example.foodmates.Models.Post;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -21,7 +21,8 @@ public class  ParseApplication extends Application {
         builder.networkInterceptors().add(httpLoggingInterceptor);
 
         ParseObject.registerSubclass(Message.class);
-        ParseObject.registerSubclass(UserPost.class);
+        ParseObject.registerSubclass(Post.class);
+
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("oYLX0MmEMMXB8aUaDsqt0jHtJ9KODKGGNEkI8uPI")
