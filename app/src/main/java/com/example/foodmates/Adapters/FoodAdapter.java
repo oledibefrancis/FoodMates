@@ -144,20 +144,6 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
             String imageUrl;
             imageUrl = food.getImageurl();
             Glide.with(context).load((imageUrl)).into(foodImage);
-            // TODO:1 Store the api details in a list and and then if a user likes a particular object, make the object id of that post to be true in the user liked list created to check if a post is liked or not.
-            // TODO:2 If food.liked is true, then make the btnLiked visible, if.
-            // TODO: 3 false, make btn like visible.
-            //TODO 4 use the code below to implement this.
-            //            if(food.like) {
-            //                btnLiked.setVisibility(View.VISIBLE);
-            //                btnLike.setVisibility(View.INVISIBLE);
-            //            }
-            //            else {
-            //                btnLiked.setVisibility(View.INVISIBLE);
-            //                btnLike.setVisibility(View.VISIBLE);
-            //            }`
-
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

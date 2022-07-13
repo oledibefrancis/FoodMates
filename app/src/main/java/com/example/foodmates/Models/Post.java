@@ -57,6 +57,8 @@ public class Post extends ParseObject {
     public String getKeyTitle(){return getString(KEY_TITLE);};
     public void setTitle(String title){put(KEY_TITLE,title);}
 
+
+
     public String calculateTimeAgo() {
         int SECOND_MILLIS = 1000;
         int MINUTE_MILLIS = 60 * SECOND_MILLIS;

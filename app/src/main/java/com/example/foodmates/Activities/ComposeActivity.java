@@ -66,6 +66,7 @@ public class ComposeActivity extends AppCompatActivity {
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(description,currentUser,photoFile,title);
+
             }
 
             private void savePost(String description, ParseUser currentUser, File photoFile, String title) {

@@ -18,15 +18,25 @@ import com.example.foodmates.Activities.FoodDetailsActivity;
 import com.example.foodmates.Activities.PostDetailsActivity;
 import com.example.foodmates.Models.Post;
 import com.example.foodmates.R;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
 import java.util.List;
+import java.util.Objects;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     Context context;
     List<Post> posts;
+
 
     public PostAdapter(Context context, List<Post> posts) {
         this.context = context;
@@ -107,6 +117,52 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 Glide.with(context).load(post.getImage().getUrl()).into(foodImage);
             }
 
+
+            ParseUser user = ParseUser.getCurrentUser();
+            ParseRelation<Post> relation = user.getRelation("likes");
+            ParseRelation<Post> savedRelation = user.getRelation("savedPost");
+            ParseQuery<Post> postQuery = relation.getQuery();
+            ParseQuery<Post> savedPostQuery = savedRelation.getQuery();
+
+
+            postQuery.findInBackground(new FindCallback<Post>() {
+                @Override
+                public void done(List<Post> liked, ParseException e) {
+                    for (Post p : liked){
+                        if(Objects.equals(p.getObjectId(), post.getObjectId())){
+                            btnLiked.setVisibility(View.VISIBLE);
+                            btnLike.setVisibility(View.INVISIBLE);
+                            return;
+                        }
+                        else {
+                            btnLiked.setVisibility(View.INVISIBLE);
+                            btnLike.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            });
+
+            savedPostQuery.findInBackground(new FindCallback<Post>() {
+                @Override
+                public void done(List<Post> saved, ParseException e) {
+                    for (Post s : saved){
+                        if(Objects.equals(s.getObjectId(), post.getObjectId())){
+                            btnSaved.setVisibility(View.VISIBLE);
+                            btnSave.setVisibility(View.INVISIBLE);
+                            return;
+                        }
+                        else {
+                            btnSaved.setVisibility(View.INVISIBLE);
+                            btnSave.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            });
+
+
+
+
+
             btnLike.setOnTouchListener(new View.OnTouchListener() {
                 GestureDetector gestureDetector = new GestureDetector(itemView.getContext(), new GestureDetector.SimpleOnGestureListener() {
 
@@ -114,9 +170,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     public boolean onDoubleTap(MotionEvent e) {
                         btnLiked.setVisibility(View.VISIBLE);
                         btnLike.setVisibility(View.INVISIBLE);
-
-                        // In the backend, update the state of liked.
-                        //
+                        relation.add(post);
+                        user.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                            }
+                        });
                         return super.onDoubleTap(e);
                     }
                 });
@@ -135,6 +194,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     public boolean onDoubleTap(MotionEvent e) {
                         btnLike.setVisibility(View.VISIBLE);
                         btnLiked.setVisibility(View.INVISIBLE);
+                        relation.remove(post);
+                        user.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+
+                            }
+                        });
+
                         return super.onDoubleTap(e);
                     }
                 });
@@ -151,9 +218,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 public void onClick(View v) {
                     btnSaved.setVisibility(View.VISIBLE);
                     btnSave.setVisibility(View.INVISIBLE);
-                    //a reference in the profile that stores object id of post the user saved
-                    //when ever the click the save button you add the object to the list and when the unsave it removes the object from the list
-                    //
+                    savedRelation.add(post);
+                    user.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                        }
+                    });
                 }
             });
             btnSaved.setOnClickListener(new View.OnClickListener() {
@@ -161,8 +231,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 public void onClick(View v) {
                     btnSave.setVisibility(View.VISIBLE);
                     btnSaved.setVisibility(View.INVISIBLE);
+                    savedRelation.remove(post);
+                    user.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                        }
+                    });
                 }
             });
         }
     }
+
 }

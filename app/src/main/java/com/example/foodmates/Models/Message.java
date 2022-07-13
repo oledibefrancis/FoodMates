@@ -24,5 +24,11 @@ public class Message extends ParseObject {
         public void setBody(String body) {
             put(BODY_KEY, body);
         }
+        //TODO
+        //allow users to send image as text
+        //check what the user wants to send a text an image or text and put the image into the data base using a setImage function
+        //there world be a new relation for the users
+        //in the user class there would be a relation of chats they are part of
+        //in the chat class there would be a relation to messages
 
 }
