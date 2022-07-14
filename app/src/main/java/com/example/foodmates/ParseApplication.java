@@ -2,6 +2,7 @@ package com.example.foodmates;
 
 import android.app.Application;
 
+import com.example.foodmates.Models.Chat;
 import com.example.foodmates.Models.Message;
 import com.example.foodmates.Models.Post;
 import com.parse.Parse;
@@ -22,6 +23,7 @@ public class  ParseApplication extends Application {
 
         ParseObject.registerSubclass(Message.class);
         ParseObject.registerSubclass(Post.class);
+        ParseObject.registerSubclass(Chat.class);
 
 
         Parse.initialize(new Parse.Configuration.Builder(this)
