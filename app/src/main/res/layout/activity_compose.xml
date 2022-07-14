@@ -4,55 +4,83 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
+    android:layout_margin="10dp"
 tools:context=".Activities.ComposeActivity">
 
-<EditText
-    android:id="@+id/etDescription"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="84dp"
-    android:ems="10"
-    android:hint="@string/post_description"
-    android:inputType="textPersonName"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/etDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:ems="10"
+        android:hint="@string/post_description"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTitle" />
 
-<Button
-    android:id="@+id/btnCaptureImage"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="36dp"
-    android:text="@string/take_picture"
-    app:layout_constraintEnd_toEndOf="@+id/etDescription"
-    app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toStartOf="@+id/etDescription"
-    app:layout_constraintTop_toBottomOf="@+id/etDescription" />
+    <Button
+        android:id="@+id/btnCaptureImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/roundstyle"
+        android:text="@string/take_picture"
+        app:layout_constraintEnd_toEndOf="@+id/etDescription"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/etDescription"
+        app:layout_constraintTop_toBottomOf="@+id/btnPickImage" />
 
-<Button
-    android:id="@+id/btnSubmit"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="44dp"
-    android:text="@string/submit"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="@+id/btnCaptureImage"
-    app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toStartOf="@+id/btnCaptureImage" />
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="56dp"
+        android:background="@drawable/roundstyle"
+        android:text="@string/submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btnCaptureImage"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/btnCaptureImage" />
 
-<ImageView
-    android:id="@+id/ivPostImage"
-    android:layout_width="match_parent"
-    android:layout_height="215dp"
-    android:layout_marginTop="20dp"
-    android:layout_marginBottom="15dp"
-    app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/btnCaptureImage"
-    app:layout_goneMarginTop="15dp"
-    tools:src="@tools:sample/avatars" />
+    <ImageView
+        android:id="@+id/ivPostImage"
+        android:layout_width="match_parent"
+        android:layout_height="215dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCaptureImage"
+        app:layout_constraintVertical_bias="0.494"
+        app:layout_goneMarginTop="15dp"
+        tools:src="@tools:sample/avatars" />
+
+    <EditText
+        android:id="@+id/etTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Title of recipie...."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnPickImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/roundstyle"
+        android:text="UPLOAD PICTURE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDescription" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

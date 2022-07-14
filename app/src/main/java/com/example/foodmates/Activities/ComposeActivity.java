@@ -7,7 +7,9 @@ import androidx.core.content.FileProvider;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -26,16 +28,23 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class ComposeActivity extends AppCompatActivity {
     public static final String  TAG = "ComposeActivity";
+    public final static int PICK_PHOTO_CODE = 1046;
+
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     EditText etDescription;
     Button btnCaptureImage;
     Button btnSubmit;
     ImageView ivPostImage;
     EditText etTitle;
+    Button btnPickImage;
     public String photoFileName = "photo.jpg";
     private File photoFile;
     private ParseFile image;
@@ -51,6 +60,7 @@ public class ComposeActivity extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
         ivPostImage = findViewById(R.id.ivPostImage);
         etTitle = findViewById(R.id.etTitle);
+        btnPickImage = findViewById(R.id.btnPickImage);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +69,11 @@ public class ComposeActivity extends AppCompatActivity {
 
                 String description = etDescription.getText().toString();
                 String title = etTitle.getText().toString();
+                if (title.isEmpty()){
+                    Toast.makeText( ComposeActivity.this,"Title cannot be empty",Toast.LENGTH_SHORT).show();
+                    btnSubmit.setClickable(true);
+                    return;
+                }
                 if (description.isEmpty()){
                     Toast.makeText( ComposeActivity.this,"Description cannot be empty",Toast.LENGTH_SHORT).show();
                     btnSubmit.setClickable(true);
@@ -106,6 +121,13 @@ public class ComposeActivity extends AppCompatActivity {
             }
         });
 
+        btnPickImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ComposeActivity.this,"this button click",Toast.LENGTH_SHORT).show();
+                onPickPhoto(v);
+            }
+        });
     }
 
     private void launchCamera() {
@@ -121,6 +143,17 @@ public class ComposeActivity extends AppCompatActivity {
         }
     }
 
+
+    public void onPickPhoto(View view) {
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        photoFile = getPhotoFileUri(photoFileName);
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, PICK_PHOTO_CODE);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -128,7 +161,48 @@ public class ComposeActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 ivPostImage.setImageBitmap(takenImage);
+            }
+                else{
                 Toast.makeText(ComposeActivity.this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        else if ((data != null) && requestCode == PICK_PHOTO_CODE) {
+            File f = new File(this.getCacheDir(), photoFileName);
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Uri photoUri = data.getData();
+            Bitmap selectedImage = loadFromUri(photoUri);
+            ivPostImage.setImageBitmap(selectedImage);
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            selectedImage.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+            byte[] bitMapData = bos.toByteArray();
+
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(photoFile);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                fos.write(bitMapData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                fos.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -145,5 +219,23 @@ public class ComposeActivity extends AppCompatActivity {
         return file;
     }
 
+
+    public Bitmap loadFromUri(Uri photoUri) {
+        Bitmap image = null;
+        try {
+            // check version of Android on device
+            if(Build.VERSION.SDK_INT > 27){
+                // on newer versions of Android, use the new decodeBitmap method
+                ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), photoUri);
+                image = ImageDecoder.decodeBitmap(source);
+            } else {
+                // support older versions of Android by using getBitmap
+                image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return image;
+    }
 
 }
