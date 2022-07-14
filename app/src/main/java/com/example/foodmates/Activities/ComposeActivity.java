@@ -80,7 +80,7 @@ public class ComposeActivity extends AppCompatActivity {
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                savePost(description,currentUser,photoFile,title);
+                savePost(description, currentUser, photoFile, title);
 
             }
 

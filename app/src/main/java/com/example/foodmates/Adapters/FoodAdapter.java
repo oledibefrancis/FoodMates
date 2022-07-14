@@ -32,7 +32,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
     List<Food> feedsToShow;
 
 
-    private Filter fliterExample = new Filter() {
+    private Filter filterExample = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
@@ -107,7 +107,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
 
     @Override
     public Filter getFilter() {
-        return fliterExample;
+        return filterExample;
     }
 
     public void clear() {

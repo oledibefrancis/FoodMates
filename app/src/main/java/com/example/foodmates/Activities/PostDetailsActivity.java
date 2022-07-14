@@ -35,7 +35,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         fat = (TextView) findViewById(R.id.fatDetail);
         protein = (TextView) findViewById(R.id.proteinDetail);
         calories = (TextView) findViewById(R.id.caloriesDetail);
-        usernameDetail =(TextView) findViewById(R.id.usernameDetail);
+        usernameDetail = (TextView) findViewById(R.id.usernameDetail);
         createdAtDetail =(TextView) findViewById(R.id.createdAtDetail);
 
 
@@ -49,7 +49,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         }
 
         foodTitle.setText(post.getKeyTitle());
-        if (post.getUser()!= null){
+        if (post.getUser() != null){
             usernameDetail.setText(post.getUser().getUsername());
             createdAtDetail.setText(post.calculateTimeAgo());
         }
