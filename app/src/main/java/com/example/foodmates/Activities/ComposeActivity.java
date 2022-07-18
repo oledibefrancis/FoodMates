@@ -25,6 +25,7 @@ import com.example.foodmates.Models.Post;
 import com.example.foodmates.R;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -111,6 +112,14 @@ public class ComposeActivity extends AppCompatActivity {
                         finish();
                     }
                 });
+                ParseUser user = ParseUser.getCurrentUser();
+                ParseRelation<Post> relation = user.getRelation("userPost");
+                relation.add(post);
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                    }
+                });
             }
         });
         
@@ -132,12 +141,9 @@ public class ComposeActivity extends AppCompatActivity {
 
     private void launchCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
         photoFile = getPhotoFileUri(photoFileName);
-
         Uri fileProvider = FileProvider.getUriForFile(ComposeActivity.this, "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-
         if (intent.resolveActivity(ComposeActivity.this.getPackageManager()) != null) {
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
         }

@@ -13,7 +13,6 @@
         android:layout_width="141dp"
         android:layout_height="145dp"
         android:layout_marginTop="36dp"
-        android:src="@drawable/pic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -115,7 +114,7 @@
         android:id="@+id/birthDate"
         android:layout_width="357dp"
         android:layout_height="22dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="45dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/cakeIcon"
         app:layout_constraintTop_toBottomOf="@+id/view4" />
@@ -160,5 +159,37 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="372dp"
+        android:layout_height="1dp"
+        android:background="@color/ash"
+        android:layout_marginTop="19dp"
+        app:layout_constraintEnd_toEndOf="@+id/view4"
+        app:layout_constraintStart_toStartOf="@+id/view4"
+        app:layout_constraintTop_toBottomOf="@+id/birthDate" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="44dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_bookmark_24"
+        app:layout_constraintStart_toStartOf="@+id/cakeIcon"
+        app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+    <TextView
+        android:id="@+id/savedPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="44dp"
+        android:text="Saved Post"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/view3"
+        app:layout_constraintVertical_bias="0.0" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

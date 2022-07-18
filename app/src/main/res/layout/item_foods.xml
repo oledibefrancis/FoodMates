@@ -11,7 +11,9 @@
     android:layout_height="match_parent"
     app:cardCornerRadius="15dp"
     android:layout_margin="10dp"
+    app:contentPadding="4dp"
     app:cardElevation="7dp" >
+
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
@@ -46,14 +48,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
+                android:text="somzy"
                 android:textColor="@color/black"
                 android:gravity="center"
                 />
             <TextView
-                android:id="@+id/createdAt"
-                android:layout_marginStart="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:text="posted"
+                />
+            <TextView
+                android:id="@+id/createdAt"
+                android:layout_marginStart="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12.30"
                 android:textSize="15dp"
                 android:textColor="@color/black"
                 android:gravity="center"

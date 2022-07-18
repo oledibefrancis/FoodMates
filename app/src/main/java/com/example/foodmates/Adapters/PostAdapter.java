@@ -14,8 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.foodmates.Activities.FoodDetailsActivity;
 import com.example.foodmates.Activities.PostDetailsActivity;
+import com.example.foodmates.Models.Chat;
 import com.example.foodmates.Models.Post;
 import com.example.foodmates.R;
 import com.parse.FindCallback;
@@ -106,16 +108,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
         public void bind(Post post) {
             foodTitle.setText(post.getKeyTitle());
-            if (post.getUser()!= null){
-            username.setText(post.getUser().getUsername());
-            createdAt.setText(post.calculateTimeAgo());
-            }
+//            if (post.getUser()!= null){
+//            username.setText(post.getUser().getUsername());
+//            createdAt.setText(post.calculateTimeAgo());
+//            }
             if(post.getImageUrl() instanceof String){
-            Glide.with(context).load((post.getImageUrl())).into(foodImage);
+            Glide.with(context)
+                    .load((post.getImageUrl()))
+                    .into(foodImage);
             }
             else {
-                Glide.with(context).load(post.getImage().getUrl()).into(foodImage);
+                Glide.with(context)
+                        .load(post.getImage().getUrl())
+                        .into(foodImage);
             }
+
 
 
             ParseUser user = ParseUser.getCurrentUser();
@@ -159,9 +166,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 }
             });
 
+            postQuery.findInBackground(new FindCallback<Post>() {
+                @Override
+                public void done(List<Post> userPosts, ParseException e) {
+                    for( Post p : userPosts){
 
-
-
+                    }
+                }
+            });
 
             btnLike.setOnTouchListener(new View.OnTouchListener() {
                 GestureDetector gestureDetector = new GestureDetector(itemView.getContext(), new GestureDetector.SimpleOnGestureListener() {

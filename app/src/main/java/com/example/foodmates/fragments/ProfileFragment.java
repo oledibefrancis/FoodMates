@@ -38,7 +38,6 @@ public class ProfileFragment extends Fragment {
 
 
     public ProfileFragment() {
-        // Required empty public constructor
     }
 
     public static ProfileFragment newInstance(String param1, String param2) {
@@ -69,7 +68,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
 
 
@@ -102,21 +100,23 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
-//TODO
-//        savedPost.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getContext(), SavedPostActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        savedPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), SavedPostActivity.class);
+                startActivity(intent);
+            }
+        });
+
         ParseUser user = ParseUser.getCurrentUser();
-        if (user.getString("profilePicture") == null) {
+        if (user.getParseFile("profilePicture") == null) {
             Glide.with(getContext()).load(getGravatar(user.getObjectId())).into(profilePicture);
         }
-        if (user.getString("profilePicture") != null) {
-            Glide.with(getContext()).load(user.getString("profilePicture")).into(profilePicture);
+
+        if (user.getParseFile("profilePicture")!=null) {
+            Glide.with(getContext()).load(user.getParseFile("profilePicture").getUrl()).into(profilePicture);
         }
+
 
     }
 }
