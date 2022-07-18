@@ -1,29 +1,29 @@
-package com.example.foodmates.fragments;
+package com.example.foodmates.Activities;
 
-import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.foodmates.Models.Message;
-import com.example.foodmates.R;
 import com.example.foodmates.Adapters.chatAdapter;
+import com.example.foodmates.Models.Chat;
+import com.example.foodmates.Models.Message;
+import com.example.foodmates.Models.Post;
+import com.example.foodmates.R;
+import com.example.foodmates.fragments.HomeFragment;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.livequery.ParseLiveQueryClient;
@@ -34,9 +34,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class ChatFragment extends Fragment {
-
+public class ChatActivity extends BreakFastActivity {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 100;
@@ -49,25 +47,11 @@ public class ChatFragment extends Fragment {
     protected List<Message> mMessages;
     Boolean mFirstLoad;
 
-    public ChatFragment() {
-    }
-
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_chat, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+        setContentView(R.layout.activity_chat);
 
         if (ParseUser.getCurrentUser() != null){
             startWithCurrentUser();
@@ -88,15 +72,10 @@ public class ChatFragment extends Fragment {
         }
 
         ParseQuery<Message> parseQuery = ParseQuery.getQuery(Message.class);
-
-        // Connect to Parse server
         SubscriptionHandling<Message> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
-
-        // Listen for CREATE events on the Message class
         subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, (query, object) -> {
             mMessages.add(0, object);
-        // RecyclerView updates need to be run on the UI thread
-            getActivity().runOnUiThread(new Runnable() {
+           runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     mAdapter.notifyDataSetChanged();
@@ -105,26 +84,24 @@ public class ChatFragment extends Fragment {
             });
         });
 
-
-
     }
+
 
     private void startWithCurrentUser() {
         setupMessagePosting();
     }
 
     private void setupMessagePosting() {
-        etMessage = (EditText) getView().findViewById(R.id.etMessage);
-        ibSend = (ImageButton) getView().findViewById(R.id.ibSend);
-        rvChat = (RecyclerView) getView().findViewById(R.id.rvChat);
+        etMessage = (EditText) findViewById(R.id.etMessage);
+        ibSend = (ImageButton) findViewById(R.id.ibSend);
+        rvChat = (RecyclerView) findViewById(R.id.rvChat);
         mMessages = new ArrayList<>();
         mFirstLoad = true;
         final String userId = ParseUser.getCurrentUser().getObjectId();
-        mAdapter = new chatAdapter(getContext(), userId, mMessages);
+        mAdapter = new chatAdapter(this, userId, mMessages);
         rvChat.setAdapter(mAdapter);
 
-        // associate the LayoutManager with the RecylcerView
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         rvChat.setLayoutManager(linearLayoutManager);
 
@@ -139,11 +116,10 @@ public class ChatFragment extends Fragment {
                     @Override
                     public void done(ParseException e) {
                         if(e == null){
-                            Toast.makeText(getActivity(), "Succesfully created message on Parse", Toast.LENGTH_SHORT).show();
-                            refreshMessages();
+                            updateObject(message);
                         }
                         else {
-                           Log.e(TAG,"Falied to save message");
+                            Log.e(TAG,"Falied to save message");
                         }
                     }
                 });
@@ -151,17 +127,52 @@ public class ChatFragment extends Fragment {
             }
         });
     }
+
+
+    private void updateObject(Message message) {
+        ParseQuery<Chat> query = ParseQuery.getQuery(Chat.class);
+        query.getInBackground("N4UwbR3wdC", (object, e) -> {
+            if (e == null) {
+                ParseRelation<Message> relation = object.getRelation("groupMessages");
+                relation.add(message);
+                object.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        refreshMessages();
+                    }
+                });
+
+            } else {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e(TAG,e.toString());
+            }
+        });
+    }
+
     void refreshMessages() {
-        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-        query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
-        query.orderByDescending("createdAt");
-        query.findInBackground(new FindCallback<Message>() {
+
+        ParseQuery<Chat> query = ParseQuery.getQuery(Chat.class);
+        query.findInBackground(new FindCallback<Chat>() {
             @Override
-            public void done(List<Message> messages, ParseException e) {
+            public void done(List<Chat> chats, ParseException e) {
                 if(e == null){
-                    mMessages.clear();
-                    mMessages.addAll(messages);
-                    mAdapter.notifyDataSetChanged();
+                    ParseRelation <Message> mRelation = chats.get(1).getRelation("groupMessages");
+                    ParseQuery<Message> mQuery = mRelation.getQuery();
+                    mQuery.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
+                    mQuery.orderByDescending("createdAt");
+                    mQuery.findInBackground(new FindCallback<Message>() {
+                        @Override
+                        public void done(List<Message> groupMessage, ParseException e) {
+                            if(e == null){
+                                mMessages.clear();
+                                mMessages.addAll(groupMessage);
+                                mAdapter.notifyDataSetChanged();
+                            }
+                            else {
+                                Log.e(TAG,"Error Loading Messages"+ e);
+                            }
+                        }
+                    });
                     if(mFirstLoad){
                         rvChat.scrollToPosition(0);
                         mFirstLoad = false;
@@ -173,19 +184,5 @@ public class ChatFragment extends Fragment {
             }
         });
     }
-
-    private void login(){
-        ParseAnonymousUtils.logIn(new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                if(e != null){
-                    Log.e(TAG,"Anonymous Login Failed:", e);
-                }
-                else {
-                    startWithCurrentUser();
-                }
-            }
-        });
-    }
-
 }
+

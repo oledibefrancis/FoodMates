@@ -11,8 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.foodmates.Models.Chat;
 import com.example.foodmates.Models.Message;
 import com.example.foodmates.R;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

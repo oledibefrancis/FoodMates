@@ -32,7 +32,7 @@
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.37014725568942436" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.43203125" />
         <entry key="app/src/main/res/layout/activity_break_fast.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/activity_chat.xml" value="0.3493150684931507" />
+        <entry key="app/src/main/res/layout/activity_chat.xml" value="0.2691292875989446" />
         <entry key="app/src/main/res/layout/activity_compose.xml" value="0.2843691148775895" />
         <entry key="app/src/main/res/layout/activity_details.xml" value="0.5760416666666667" />
         <entry key="app/src/main/res/layout/activity_food_details.xml" value="0.1015625" />
@@ -41,9 +41,10 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_navigation_drawer.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_post_details.xml" value="0.5760416666666667" />
+        <entry key="app/src/main/res/layout/activity_saved_post.xml" value="0.2079207920792079" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.45" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.3145833333333333" />
-        <entry key="app/src/main/res/layout/activity_user_interest.xml" value="0.390625" />
+        <entry key="app/src/main/res/layout/activity_user_interest.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_user_post.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/layout/app_bar_navigation_drawer.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/content_navigation_drawer.xml" value="0.38958333333333334" />
@@ -51,7 +52,7 @@
         <entry key="app/src/main/res/layout/fragment_food_hub.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_gallery.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.390625" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.2981029810298103" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_slideshow.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/item_books.xml" value="0.29257246376811596" />
         <entry key="app/src/main/res/layout/item_foods.xml" value="0.375" />

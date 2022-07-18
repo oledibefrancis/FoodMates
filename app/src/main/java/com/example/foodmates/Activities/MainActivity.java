@@ -8,10 +8,9 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
+import com.example.foodmates.fragments.FoodHubFragment;
 import com.example.foodmates.R;
-import com.example.foodmates.fragments.ChatFragment;
 import com.example.foodmates.fragments.HomeFragment;
 import com.example.foodmates.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -39,16 +38,13 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.action_home:
-                        Toast.makeText(MainActivity.this,"Home",Toast.LENGTH_SHORT).show();
                         fragment = new HomeFragment();
                         break;
                     case R.id.action_compose:
-                        Toast.makeText(MainActivity.this,"Roadmap",Toast.LENGTH_SHORT).show();
-                        fragment = new ChatFragment();
+                        fragment = new FoodHubFragment();
                         break;
                     case R.id.action_profile:
                     default:
-                        Toast.makeText(MainActivity.this,"Profile",Toast.LENGTH_SHORT).show();
                         fragment = new ProfileFragment();
                         break;
                 }

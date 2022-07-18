@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -49,6 +50,7 @@ public class HomeFragment extends Fragment {
     public static final String API_URL2 = "https://api.spoonacular.com/recipes/findByNutrients?apiKey=8cf7ac7ac6f449e49a93e9cf5576c873&minCarbs=10&maxCarbs=50&number=10";
     public static final String API_URL = "https://api.spoonacular.com/recipes/complexSearch?apiKey=8cf7ac7ac6f449e49a93e9cf5576c873";
     public final static int REQUEST_CODE = 2031;
+    public static final int NUMBER_OF_COLUMNS = 2;
     List<Post> posts;
     List<Food> foods;
     RecyclerView rvHomeFeeds;
@@ -60,7 +62,6 @@ public class HomeFragment extends Fragment {
 
 
     public HomeFragment() {
-        // Required empty public constructor
     }
 
 
@@ -121,7 +122,7 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 getSearchResults(query);
-                posts.clear();//clear array before adding result
+                posts.clear();
                 return false;
             }
 
@@ -165,7 +166,7 @@ public class HomeFragment extends Fragment {
 //                   saveInDataBase(results);
                     foodAdapter.notifyDataSetChanged();
                     rvHomeFeeds.setAdapter(foodAdapter);
-                    rvHomeFeeds.setLayoutManager(new LinearLayoutManager(getContext()));
+                    rvHomeFeeds.setLayoutManager(new GridLayoutManager(getContext(),NUMBER_OF_COLUMNS));
                     Log.i(TAG, "food: " + foods.size());
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit json exception", e);
