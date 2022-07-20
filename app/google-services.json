@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "457962631644",
+    "project_id": "foodmates-35d6b",
+    "storage_bucket": "foodmates-35d6b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:457962631644:android:06dbfa3951d51972a01f19",
+        "android_client_info": {
+          "package_name": "com.example.foodmates"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "457962631644-rh1sqsd7b2lmvip3sfgs9ud2ig12bg1g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuk1oR1NjInqSchX_T6CwZh0aKn0JmBcs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "457962631644-rh1sqsd7b2lmvip3sfgs9ud2ig12bg1g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

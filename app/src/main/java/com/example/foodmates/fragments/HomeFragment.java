@@ -128,14 +128,12 @@ public class HomeFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-//                foodAdapter.getFilter().filter(newText);
+//                postAdapter.getFilter().filter(newText);
                 return false;
             }
         });
-
-
-
     }
+
 
     public static Food fromJson(JSONObject jsonObject) throws JSONException {
         Food food = new Food();
@@ -243,9 +241,24 @@ public class HomeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId() == R.id.addPost) {
+        switch (item.getItemId()) {
+            case R.id.FilterOne:
+                postAdapter.clear();
+                queryPostsNewest();
+                postAdapter.notifyDataSetChanged();
+                return true;
+
+            case R.id.FilterTwo:
+                postAdapter.clear();
+                queryPostsOldest();
+                postAdapter.notifyDataSetChanged();
+
+                return true;
+
+            case R.id.addPost:
             onCompose();
             return true;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -278,6 +291,44 @@ public class HomeFragment extends Fragment {
             }
         });
 
+    }
+
+    private void queryPostsOldest() {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.setLimit(50);
+        query.addAscendingOrder("createdAt");
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> dataPosts, ParseException e) {
+                // check for errors
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting posts", e);
+                    return;
+                }
+                posts.addAll(dataPosts);
+                postAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void queryPostsNewest() {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.setLimit(50);
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> dataPosts, ParseException e) {
+                // check for errors
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting posts", e);
+                    return;
+                }
+                posts.addAll(dataPosts);
+                postAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }
 

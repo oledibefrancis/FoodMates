@@ -3,6 +3,7 @@ package com.example.foodmates.Models;
 import android.util.Log;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -49,8 +50,16 @@ public class Post extends ParseObject {
         put(KEY_IMAGE_URL, imageUrl);
     }
     public ParseUser getUser(){
-        return getParseUser(KEY_USER);
-    }
+        ParseUser user = getParseUser(KEY_USER);
+        if (user != null){
+            try {
+                assert user != null;
+                user.fetchIfNeeded();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return user;    }
     public void setUser(ParseUser user){
         put(KEY_USER,user);
     }

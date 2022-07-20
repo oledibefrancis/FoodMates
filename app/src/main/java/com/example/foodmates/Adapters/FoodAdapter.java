@@ -38,14 +38,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
 
             List<Food> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0) {
-                //If the user does not enter anything, display the whole list
                 filteredList.addAll(foods);
             } else {
-                //toLowercase makes it so that the search is not case sensitive
-                //trim takes away extra whitespaces
                 String filterPattern = constraint.toString().toLowerCase().trim();
-
-                //iterate to see which post matched filterPattern
                 for (Food food : foods) {
                     if (food.getTitle().toLowerCase().contains(filterPattern)) {
                         filteredList.add(food);
@@ -196,8 +191,6 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
                 public void onClick(View v) {
                     btnSaved.setVisibility(View.VISIBLE);
                     btnSave.setVisibility(View.INVISIBLE);
-                    //TODO 1) a reference in the profile that stores object id of post the user saved.
-                    //TODO 2) when ever the click the save button you add the object to the list and when the unsave it removes the object from the list.
                 }
             });
             btnSaved.setOnClickListener(new View.OnClickListener() {

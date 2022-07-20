@@ -1,7 +1,10 @@
 package com.example.foodmates.Adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -38,6 +41,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     Context context;
     List<Post> posts;
+    public static final String TAG ="PostAdapter";
 
 
     public PostAdapter(Context context, List<Post> posts) {
@@ -62,6 +66,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 Intent intent = new Intent(context, PostDetailsActivity.class);
                 intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
                 context.startActivity(intent);
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Do you want to delete this post?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).setNegativeButton("No",null);
+                AlertDialog alert = builder.create();
+                alert.show();
+                return false;
             }
         });
     }
@@ -107,10 +126,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         }
         public void bind(Post post) {
-            foodTitle.setText(post.getKeyTitle());
+//            foodTitle.setText(post.getKeyTitle());
 //            if (post.getUser()!= null){
 //            username.setText(post.getUser().getUsername());
 //            createdAt.setText(post.calculateTimeAgo());
+//            }
+//            if(post.getUser()!= null){
+//                Log.e(TAG,post.getUser().getUsername());
+//                Log.e(TAG,post.calculateTimeAgo());
 //            }
             if(post.getImageUrl() instanceof String){
             Glide.with(context)
@@ -126,10 +149,29 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
 
             ParseUser user = ParseUser.getCurrentUser();
+            ParseRelation<Post> userPostRelation = user.getRelation("userPost");
             ParseRelation<Post> relation = user.getRelation("likes");
             ParseRelation<Post> savedRelation = user.getRelation("savedPost");
             ParseQuery<Post> postQuery = relation.getQuery();
             ParseQuery<Post> savedPostQuery = savedRelation.getQuery();
+
+            ParseQuery<Post> query = userPostRelation.getQuery();
+            query.findInBackground(new FindCallback<Post>() {
+                @Override
+                public void done(List<Post> userPosts, ParseException e) {
+                    for(Post p : userPosts){
+                        if(Objects.equals(p.getObjectId(), post.getObjectId())){
+                            username.setText(post.getUser().getUsername());
+                            createdAt.setText(post.calculateTimeAgo());
+                        }
+                        else{
+                            username.setText("");
+                            createdAt.setText("");
+                        }
+                    }
+                }
+            });
+
 
 
             postQuery.findInBackground(new FindCallback<Post>() {
