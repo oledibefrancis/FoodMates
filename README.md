@@ -1,4 +1,4 @@
-# CareerMatch 
+# FoodMates 
 
 ## Table of Contents
 1. [Overview](#Overview)
@@ -7,55 +7,56 @@
 
 ## Overview
 ### Description
-An app that recommends job opportunities to you based on your career interest and helps you prep for the recommended job.
+An app that provides users recipe options and details on each recipe. Users can also create their own recipe and share with other users
 
-### App Evaluation
-- **Category:** Professional
-- **Mobile:** This app would be primarily developed for mobile but would perhaps be just as viable on a computer. Functionality wouldn't be limited to mobile devices, however mobile version could potentially have more features.
-- **Story:** Analyzes users music choices, and connects them to other users with similar choices. The user can then decide to message this person and befriend them if wanted.
-- **Market:** Anyone looking for work opportunities that they are interested in.
+### App Evaluationdbbbvtthdkkdbclnjjgfiluhhjcvdvii
+- **Category:** food discovery , social, lifestyle
+- **Mobile:** This program would be primarily designed for mobile devices, but it may also be used on a PC. The functionality would not be restricted to mobile devices, although the mobile version may offer additional capabilities.
+- **Story:** Users can view recipes and food feeds, create recipes, save to their profile and communicate with other users.
+- **Market:** Food lovers and people who need directions in preparing their favorite recipe
 - **Habit:** This app could be used as frequently or infrequently as the user desired, based on their level of desire and what they're seeking for.
-- **Scope:** Users acess to oppurtunity and also resources to prepare them for the jobs.
-## Product Spec
+- **Scope:** The app is directed towards user recipes exploration and creation of their own recipes and connections with other users.
+
 ### 1. User Stories (Required and Optional)
 
 **Required Must-have Stories**
 
-* User logs in to access previous chats and preference settings
-* The app interacts with a database (e.g. Parse)
-* The app integrates with Linkedin, Khan Academy API
-* The user can log in/log out of the app
-* The user can sign up as a new user
-* The app uses at least one gesture (e.g. double tap to like, e.g. pinch to scale) 
-* The app uses at least one animation (e.g. fade in/out, e.g. animating a view growing and shrinking
-* The app will have a bottom navigation bar holding the Home/Feed, Roadmap, and User fragment.
-* The app will have an activity for users to browse the job openings to select from.
-* Personalized resources that the users can take advantage of.
-* Save a particular job to favorites for future reference
-* Click to see details of each opportunity and a link to the application
+- [x] The app interacts with a database Parse
+- [x] The app integrates with spoonacular API
+- [x] The user can log in/log out of the app
+- [x] The user can sign up as a new user
+- [x] The app uses gesture double tap to like
+- [x] The app uses animation fade in/out
+- [x] The app has a bottom navigation bar holding the Home/Feed, Roadmap, and User fragment.
+- [x] The app has an activity for users to browse the food recipe to select from.
+- [x] Personalized resources that the users can take advantage of.
+- [x] Save a particular recipe to favorites for future reference
+- [x] Clickto see details of each recipe
+- [x] Like and Save Post
 
 **Optional Nice-to-have Stories**
 
-* Having a very polished UI
-* User can post to their friend groups about their milestones and accomplishments
-* Filter to  see a variety of opportunities like scholarships(if a student), conferences/seminars
-* In app Youtube like Videos
-* Create a personalized roadmap for each User
-* Search for a particular job
-
+- [x] Having a very polished UI
+- [x] User can create recipe and post it
+- [x] Show random avatar if user profile picture is not available
+- [x] Filter user recipes feeds by newest and oldest
+- [x] Create a personalized roadmap for each User
+- [x] Logged in user can view all their Saved Post 
 
 ### 2. Screen Archetypes
 
-* Register - User signs up or logs into their account
-   * User fills in their top three intrest upon sign up
-   * Upon Download/Reopening of the application, the user is prompted to log in to gain access to their profile
-* Home/Feed Screen 
-   * Upon selceting top choice of interest, would see perosnalized job oppurtunities based on their intrest
-* Profile Screen 
-   * Allows user to upload a photo and fill in information that is interesting to them and others
-* Resources/Roadmap
-   * Allows user to see resources and courses that can prepare them for job openings
-   * Tracks your progress and as you complete courses required for each job
+* Login
+   - [x] User can login into exsting account
+* Register 
+   - [x] Signup New User
+* Home 
+   - [x] Allows to explore different recipes through searching, filtering
+* Foodhub
+   - [x] Allows user see multiple group chats they can join and have great conversations in
+   - [x] Users can create their own group chat
+* Profile
+   - [x] Allows user to see thier saved post from the feeds page
+
 
 
 ### 3. Navigation
@@ -63,16 +64,10 @@ An app that recommends job opportunities to you based on your career interest an
 **Tab Navigation** (Tab to Screen)
 
 * Home/feed
-* Resource/roadmap
+* Food Hub
 * Profile
 
-Optional:
-* Chat
 
-
-
-## Digital Wireframes
-<img src="https://github.com/oledibefrancis/Career-Match/blob/main/wirframe.png" width=800><br>
 
 
 
