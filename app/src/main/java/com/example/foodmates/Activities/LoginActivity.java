@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if(ParseUser.getCurrentUser() != null){
+        if (ParseUser.getCurrentUser() != null) {
             goMainActivity();
         }
 
@@ -42,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
         etLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "onClick login button");
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 loginUser(username, password);
@@ -50,31 +49,31 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-
     }
 
     public void loginUser(String username, String password) {
-       //Todo: write the logic
-        Log.i(TAG,"Attempting  to login user" + username);
+        //Todo: write the logic
+        Log.i(TAG, "Attempting  to login user" + username);
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
-                if(e != null){
-                    Log.e("get to here","Issue with login", e);
-                    Toast.makeText(LoginActivity.this,"Issue with login!", Toast.LENGTH_SHORT).show();
+                if (e != null) {
+                    Log.e("get to here", "Issue with login", e);
+                    Toast.makeText(LoginActivity.this, "Issue with login!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 goMainActivity();
 
-                Toast.makeText(LoginActivity.this,"Success!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_SHORT).show();
             }
         });
-      }
+    }
 
 
     private void goMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }
 
@@ -82,6 +81,8 @@ public class LoginActivity extends AppCompatActivity {
     public void onSignUp(View view) {
         Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        finish();
     }
 
 }

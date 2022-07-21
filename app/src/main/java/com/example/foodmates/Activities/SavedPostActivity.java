@@ -24,7 +24,7 @@ import java.util.List;
 
 public class SavedPostActivity extends AppCompatActivity {
     public static final String TAG = "savedPostActivity";
-    private static final int NUMBER_OF_COLUMNS = 2 ;
+    private static final int NUMBER_OF_COLUMNS = 2;
 
     List<Post> posts;
     PostAdapter postAdapter;
@@ -40,7 +40,7 @@ public class SavedPostActivity extends AppCompatActivity {
         posts = new ArrayList<>();
         postAdapter = new PostAdapter(this, posts);
         rvMovies.setAdapter(postAdapter);
-        rvMovies.setLayoutManager(new GridLayoutManager(this,NUMBER_OF_COLUMNS));
+        rvMovies.setLayoutManager(new GridLayoutManager(this, NUMBER_OF_COLUMNS));
         queryPosts();
 
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
@@ -71,8 +71,8 @@ public class SavedPostActivity extends AppCompatActivity {
         savedQuery.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> savedPosts, ParseException e) {
-                if(e != null){
-                    Log.e(TAG,"Issue with getting posts", e);
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting posts", e);
                     return;
                 }
                 posts.addAll(savedPosts);

@@ -23,8 +23,10 @@ import android.widget.Toast;
 //import com.example.careermatch.R;
 import com.example.foodmates.Models.Post;
 import com.example.foodmates.R;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -34,19 +36,21 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 public class ComposeActivity extends AppCompatActivity {
-    public static final String  TAG = "ComposeActivity";
+    public static final String TAG = "ComposeActivity";
     public final static int PICK_PHOTO_CODE = 1046;
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
+    public String photoFileName = "photo.jpg";
     EditText etDescription;
     Button btnCaptureImage;
     Button btnSubmit;
     ImageView ivPostImage;
     EditText etTitle;
     Button btnPickImage;
-    public String photoFileName = "photo.jpg";
     private File photoFile;
     private ParseFile image;
 
@@ -70,13 +74,13 @@ public class ComposeActivity extends AppCompatActivity {
 
                 String description = etDescription.getText().toString();
                 String title = etTitle.getText().toString();
-                if (title.isEmpty()){
-                    Toast.makeText( ComposeActivity.this,"Title cannot be empty",Toast.LENGTH_SHORT).show();
+                if (title.isEmpty()) {
+                    Toast.makeText(ComposeActivity.this, "Title cannot be empty", Toast.LENGTH_SHORT).show();
                     btnSubmit.setClickable(true);
                     return;
                 }
-                if (description.isEmpty()){
-                    Toast.makeText( ComposeActivity.this,"Description cannot be empty",Toast.LENGTH_SHORT).show();
+                if (description.isEmpty()) {
+                    Toast.makeText(ComposeActivity.this, "Description cannot be empty", Toast.LENGTH_SHORT).show();
                     btnSubmit.setClickable(true);
                     return;
                 }
@@ -95,13 +99,13 @@ public class ComposeActivity extends AppCompatActivity {
                 post.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        if (e != null){
+                        if (e != null) {
 
                             Toast.makeText(ComposeActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, e.toString());
                         }
-                        if (photoFile == null || ivPostImage.getDrawable() ==null){
-                            Toast.makeText(ComposeActivity.this,"There is no image!",Toast.LENGTH_SHORT).show();
+                        if (photoFile == null || ivPostImage.getDrawable() == null) {
+                            Toast.makeText(ComposeActivity.this, "There is no image!", Toast.LENGTH_SHORT).show();
                             btnSubmit.setClickable(true);
                             return;
                         }
@@ -120,9 +124,10 @@ public class ComposeActivity extends AppCompatActivity {
                     public void done(ParseException e) {
                     }
                 });
+
             }
         });
-        
+
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,7 +138,7 @@ public class ComposeActivity extends AppCompatActivity {
         btnPickImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ComposeActivity.this,"this button click",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ComposeActivity.this, "this button click", Toast.LENGTH_SHORT).show();
                 onPickPhoto(v);
             }
         });
@@ -141,6 +146,7 @@ public class ComposeActivity extends AppCompatActivity {
 
     private void launchCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         photoFile = getPhotoFileUri(photoFileName);
         Uri fileProvider = FileProvider.getUriForFile(ComposeActivity.this, "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
@@ -153,6 +159,7 @@ public class ComposeActivity extends AppCompatActivity {
     public void onPickPhoto(View view) {
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         photoFile = getPhotoFileUri(photoFileName);
 
         if (intent.resolveActivity(getPackageManager()) != null) {
@@ -167,13 +174,10 @@ public class ComposeActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 ivPostImage.setImageBitmap(takenImage);
-            }
-                else{
+            } else {
                 Toast.makeText(ComposeActivity.this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
-        }
-
-        else if ((data != null) && requestCode == PICK_PHOTO_CODE) {
+        } else if ((data != null) && requestCode == PICK_PHOTO_CODE) {
             File f = new File(this.getCacheDir(), photoFileName);
             try {
                 f.createNewFile();
@@ -216,7 +220,7 @@ public class ComposeActivity extends AppCompatActivity {
     public File getPhotoFileUri(String photoFileName) {
         File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
 
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
             Log.d(TAG, "failed to create directory");
         }
         File file = new File(mediaStorageDir.getPath() + File.separator + photoFileName);
@@ -229,13 +233,10 @@ public class ComposeActivity extends AppCompatActivity {
     public Bitmap loadFromUri(Uri photoUri) {
         Bitmap image = null;
         try {
-            // check version of Android on device
-            if(Build.VERSION.SDK_INT > 27){
-                // on newer versions of Android, use the new decodeBitmap method
+            if (Build.VERSION.SDK_INT > 27) {
                 ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), photoUri);
                 image = ImageDecoder.decodeBitmap(source);
             } else {
-                // support older versions of Android by using getBitmap
                 image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
             }
         } catch (IOException e) {
