@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,8 +22,10 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.foodmates.Activities.FoodDetailsActivity;
 import com.example.foodmates.Activities.PostDetailsActivity;
 import com.example.foodmates.Models.Chat;
+import com.example.foodmates.Models.Food;
 import com.example.foodmates.Models.Post;
 import com.example.foodmates.R;
+import com.example.foodmates.fragments.HomeFragment;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -39,9 +42,9 @@ import java.util.Objects;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
+    public static final String TAG = "PostAdapter";
     Context context;
     List<Post> posts;
-    public static final String TAG ="PostAdapter";
 
 
     public PostAdapter(Context context, List<Post> posts) {
@@ -76,8 +79,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                deleteObject(post.getObjectId());
+                                posts.remove(position);
+                                notifyDataSetChanged();
                             }
-                        }).setNegativeButton("No",null);
+                        }).setNegativeButton("No", null);
                 AlertDialog alert = builder.create();
                 alert.show();
                 return false;
@@ -100,8 +106,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public void deleteObject(String objectId) {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
+        query.getInBackground(objectId, (object, e) -> {
+            if (e == null) {
+                object.deleteInBackground(e2 -> {
+                    if (e2 == null) {
+                        Toast.makeText(context, "Delete Successful", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Error: " + e2.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView username;
+        TextView posted;
         ImageView foodImage;
         TextView foodTitle;
         Context context;
@@ -111,12 +136,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         ImageView btnSave;
         ImageView btnSaved;
         TextView createdAt;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             foodTitle = itemView.findViewById(R.id.foodTitles);
             foodImage = itemView.findViewById(R.id.foodImages);
             username = itemView.findViewById(R.id.postUser);
             this.context = itemView.getContext();
+            posted = itemView.findViewById(R.id.posted);
 //            description = itemView.findViewById(R.id.description)
             btnLike = itemView.findViewById(R.id.btnLike);
             btnSave = itemView.findViewById(R.id.btnSave);
@@ -125,27 +152,29 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             createdAt = itemView.findViewById(R.id.createdAt);
 
         }
+
         public void bind(Post post) {
-//            foodTitle.setText(post.getKeyTitle());
-//            if (post.getUser()!= null){
-//            username.setText(post.getUser().getUsername());
-//            createdAt.setText(post.calculateTimeAgo());
-//            }
-//            if(post.getUser()!= null){
-//                Log.e(TAG,post.getUser().getUsername());
-//                Log.e(TAG,post.calculateTimeAgo());
-//            }
-            if(post.getImageUrl() instanceof String){
-            Glide.with(context)
-                    .load((post.getImageUrl()))
-                    .into(foodImage);
+            foodTitle.setText(post.getKeyTitle());
+            if (post.getUser()!= null){
+                Log.e(TAG,post.getUser().getUsername());
+                username.setText(post.getUser().getUsername());
+            createdAt.setText(post.calculateTimeAgo());
+            posted.setVisibility(View.VISIBLE);
             }
             else {
+                username.setText("");
+                createdAt.setText("");
+                posted.setVisibility(View.INVISIBLE);
+            }
+            if (post.getImageUrl() instanceof String) {
+                Glide.with(context)
+                        .load((post.getImageUrl()))
+                        .into(foodImage);
+            } else {
                 Glide.with(context)
                         .load(post.getImage().getUrl())
                         .into(foodImage);
             }
-
 
 
             ParseUser user = ParseUser.getCurrentUser();
@@ -159,12 +188,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             query.findInBackground(new FindCallback<Post>() {
                 @Override
                 public void done(List<Post> userPosts, ParseException e) {
-                    for(Post p : userPosts){
-                        if(Objects.equals(p.getObjectId(), post.getObjectId())){
+                    for (Post p : userPosts) {
+                        if (Objects.equals(p.getObjectId(), post.getObjectId())) {
                             username.setText(post.getUser().getUsername());
                             createdAt.setText(post.calculateTimeAgo());
-                        }
-                        else{
+                        } else {
                             username.setText("");
                             createdAt.setText("");
                         }
@@ -173,17 +201,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             });
 
 
-
             postQuery.findInBackground(new FindCallback<Post>() {
                 @Override
                 public void done(List<Post> liked, ParseException e) {
-                    for (Post p : liked){
-                        if(Objects.equals(p.getObjectId(), post.getObjectId())){
+                    for (Post p : liked) {
+                        if (Objects.equals(p.getObjectId(), post.getObjectId())) {
                             btnLiked.setVisibility(View.VISIBLE);
                             btnLike.setVisibility(View.INVISIBLE);
                             return;
-                        }
-                        else {
+                        } else {
                             btnLiked.setVisibility(View.INVISIBLE);
                             btnLike.setVisibility(View.VISIBLE);
                         }
@@ -194,13 +220,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             savedPostQuery.findInBackground(new FindCallback<Post>() {
                 @Override
                 public void done(List<Post> saved, ParseException e) {
-                    for (Post s : saved){
-                        if(Objects.equals(s.getObjectId(), post.getObjectId())){
+                    for (Post s : saved) {
+                        if (Objects.equals(s.getObjectId(), post.getObjectId())) {
                             btnSaved.setVisibility(View.VISIBLE);
                             btnSave.setVisibility(View.INVISIBLE);
                             return;
-                        }
-                        else {
+                        } else {
                             btnSaved.setVisibility(View.INVISIBLE);
                             btnSave.setVisibility(View.VISIBLE);
                         }
@@ -211,7 +236,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             postQuery.findInBackground(new FindCallback<Post>() {
                 @Override
                 public void done(List<Post> userPosts, ParseException e) {
-                    for( Post p : userPosts){
+                    for (Post p : userPosts) {
 
                     }
                 }
