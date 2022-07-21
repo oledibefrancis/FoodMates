@@ -7,9 +7,9 @@
 
 ## Overview
 ### Description
-An app that provides users recipe options and details on each recipe. Users can also create their own recipe and share with other users
+A recipe discovery app that shows a wide variety of recipe options and details on each recipe. Users can also create their own recipe and share with other users
 
-### App Evaluationdbbbvtthdkkdbclnjjgfiluhhjcvdvii
+### App Evaluation
 - **Category:** food discovery , social, lifestyle
 - **Mobile:** This program would be primarily designed for mobile devices, but it may also be used on a PC. The functionality would not be restricted to mobile devices, although the mobile version may offer additional capabilities.
 - **Story:** Users can view recipes and food feeds, create recipes, save to their profile and communicate with other users.
