@@ -84,82 +84,14 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_marginVertical="5dp"
                 >
-                <LinearLayout
+                <TextView
+                    android:id="@+id/postDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="10dp"
-                        android:src="@drawable/carbicon"/>
-                    <TextView
-                        android:id="@+id/carbs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginVertical="5dp">
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="10dp"
-                        android:src="@drawable/fatsicon"/>
-                    <TextView
-                        android:id="@+id/fat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginVertical="5dp">
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="10dp"
-                        android:src="@drawable/proteinicon"/>
-                    <TextView
-                        android:id="@+id/protein"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginVertical="5dp">
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="10dp"
-                        android:src="@drawable/calicon"/>
-                    <TextView
-                        android:id="@+id/calories"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        />
-                </LinearLayout>
+                    />
 
             </LinearLayout>
 

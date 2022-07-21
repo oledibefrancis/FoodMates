@@ -74,7 +74,7 @@
                     android:src="@drawable/ic_baseline_favorite_border_24"/>
                 <ImageView
                     android:id="@+id/btnSave"
-                    android:layout_marginStart="325dp"
+                    android:layout_marginStart="310dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_baseline_bookmark_border_24"/>
@@ -87,79 +87,16 @@
                 android:orientation="vertical"
                 android:layout_marginVertical="5dp"
                 >
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="10dp"
-                        android:src="@drawable/carbicon"/>
-                    <TextView
-                        android:id="@+id/carbsDetail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        />
-                </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginVertical="5dp">
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="10dp"
-                        android:src="@drawable/fatsicon"/>
                     <TextView
-                        android:id="@+id/fatDetail"
+                        android:id="@+id/postDetail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
+                        android:padding="10dp"
                         android:textColor="@color/black"
+                        android:autoLink="all"
                         />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginVertical="5dp">
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="10dp"
-                        android:src="@drawable/proteinicon"/>
-                    <TextView
-                        android:id="@+id/proteinDetail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginVertical="5dp">
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="10dp"
-                        android:src="@drawable/calicon"/>
-                    <TextView
-                        android:id="@+id/caloriesDetail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        />
-                </LinearLayout>
 
             </LinearLayout>
 
