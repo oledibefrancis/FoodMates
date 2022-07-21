@@ -1,10 +1,8 @@
 package com.example.foodmates.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.foodmates.R;
-import com.example.foodmates.fragments.ChatFragment;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -25,19 +22,18 @@ import com.parse.SignUpCallback;
 import java.text.DateFormat;
 import java.util.Calendar;
 
-public class SignupActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class SignupActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     public static final String TAG = "SignUpActivity";
 
     EditText etUsername;
     EditText etPassword;
     EditText etEmail;
-    EditText  etContact;
+    EditText etContact;
     TextView etBirthDate;
     Button etSignUpButton;
     Button loginButton;
     ImageView iconDate;
-
 
 
     @Override
@@ -54,8 +50,6 @@ public class SignupActivity extends AppCompatActivity implements DatePickerDialo
         iconDate = findViewById(R.id.iconDate);
 
 
-
-
         etSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +59,31 @@ public class SignupActivity extends AppCompatActivity implements DatePickerDialo
                 String password = etPassword.getText().toString();
                 String contact = etContact.getText().toString();
                 String birthDate = etBirthDate.getText().toString();
-                signUpUser(userName,password,email,contact,birthDate);
+
+
+                if (userName.isEmpty()) {
+                    Toast.makeText(SignupActivity.this, "Username cannot be empty", Toast.LENGTH_SHORT).show();
+                    etSignUpButton.setClickable(true);
+                    return;
+                } else if (email.isEmpty()) {
+                    Toast.makeText(SignupActivity.this, "Email cannot be empty", Toast.LENGTH_SHORT).show();
+                    etSignUpButton.setClickable(true);
+                    return;
+                } else if (password.isEmpty()) {
+                    Toast.makeText(SignupActivity.this, "Password cannot be empty", Toast.LENGTH_SHORT).show();
+                    etSignUpButton.setClickable(true);
+                    return;
+                } else if (contact.isEmpty()) {
+                    Toast.makeText(SignupActivity.this, "Contact cannot be empty", Toast.LENGTH_SHORT).show();
+                    etSignUpButton.setClickable(true);
+                    return;
+                } else if (birthDate.isEmpty()) {
+                    Toast.makeText(SignupActivity.this, "Birthdate cannot be empty", Toast.LENGTH_SHORT).show();
+                    etSignUpButton.setClickable(true);
+                    return;
+                } else {
+                    signUpUser(userName, password, email, contact, birthDate);
+                }
 
             }
         });
@@ -80,7 +98,7 @@ public class SignupActivity extends AppCompatActivity implements DatePickerDialo
         iconDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              showDatePickerDialog();
+                showDatePickerDialog();
             }
         });
 
@@ -89,10 +107,11 @@ public class SignupActivity extends AppCompatActivity implements DatePickerDialo
     private void goUserInterest() {
         Intent intent = new Intent(this, UserInterestActivity.class);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }
 
-    public void signUpUser(String userName, String password, String email, String contact, String birthDate ) {
+    public void signUpUser(String userName, String password, String email, String contact, String birthDate) {
         ParseUser user = new ParseUser();
         user.setUsername(userName);
         user.setPassword(password);
@@ -102,21 +121,21 @@ public class SignupActivity extends AppCompatActivity implements DatePickerDialo
 
 
         user.signUpInBackground(new SignUpCallback() {
-        @Override
-        public void done(ParseException e) {
-            if (e == null) {
-                Log.i(TAG, "onClick signUp button");
-                Toast.makeText(getApplicationContext(),"Signed up sucessfully" , Toast.LENGTH_SHORT);
-                goUserInterest();
-            }
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e == null) {
+                                            Log.i(TAG, "onClick signUp button");
+                                            Toast.makeText(getApplicationContext(), "Signed up sucessfully", Toast.LENGTH_SHORT);
+                                            goUserInterest();
+                                        } else {
+                                            Log.i(TAG, "onClick Error");
+                                            Toast.makeText(SignupActivity.this, "Error Signing Up", Toast.LENGTH_SHORT);
+                                            Log.e(TAG, e.toString());
+                                            Toast.makeText(SignupActivity.this, e.toString(), Toast.LENGTH_SHORT);
 
-            else {
-                Log.i(TAG, "onClick Error");
-                Toast.makeText(getApplicationContext(),"Error Signing Up" , Toast.LENGTH_SHORT);
-                Log.e(TAG, e.toString());
-            }
-        }
-    }
+                                        }
+                                    }
+                                }
         );
     }
 
@@ -130,7 +149,8 @@ public class SignupActivity extends AppCompatActivity implements DatePickerDialo
         String currentDateString = DateFormat.getDateInstance().format(calendar.getTime());
         etBirthDate.setText(currentDateString);
     }
-    private void showDatePickerDialog(){
+
+    private void showDatePickerDialog() {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
@@ -138,7 +158,7 @@ public class SignupActivity extends AppCompatActivity implements DatePickerDialo
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-                );
+        );
         datePickerDialog.show();
     }
 }
