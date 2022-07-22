@@ -29,22 +29,26 @@ import com.parse.SaveCallback;
 import com.parse.livequery.ParseLiveQueryClient;
 import com.parse.livequery.SubscriptionHandling;
 
+import org.parceler.Parcels;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class ChatActivity extends BreakFastActivity {
+public class ChatActivity extends AppCompatActivity {
 
-    private static final String TAG = HomeFragment.class.getSimpleName();
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 100;
     static final String USER_ID_KEY = "userId";
     static final String BODY_KEY = "body";
+    private static final String TAG = HomeFragment.class.getSimpleName();
+    protected chatAdapter mAdapter;
+    protected List<Message> mMessages;
+    Chat chat;
     EditText etMessage;
     ImageButton ibSend;
     RecyclerView rvChat;
-    protected chatAdapter mAdapter;
-    protected List<Message> mMessages;
     Boolean mFirstLoad;
 
 
@@ -53,10 +57,11 @@ public class ChatActivity extends BreakFastActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        if (ParseUser.getCurrentUser() != null){
+        chat = (Chat) Parcels.unwrap(getIntent().getParcelableExtra(Chat.class.getSimpleName()));
+
+        if (ParseUser.getCurrentUser() != null) {
             startWithCurrentUser();
-        }
-        else {
+        } else {
             login();
         }
 
@@ -75,7 +80,7 @@ public class ChatActivity extends BreakFastActivity {
         SubscriptionHandling<Message> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
         subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, (query, object) -> {
             mMessages.add(0, object);
-           runOnUiThread(new Runnable() {
+            runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     mAdapter.notifyDataSetChanged();
@@ -111,15 +116,15 @@ public class ChatActivity extends BreakFastActivity {
                 String data = etMessage.getText().toString();
                 Message message = new Message();
                 message.setUserId(ParseUser.getCurrentUser().getObjectId());
+                message.setUserIdPointer(ParseUser.getCurrentUser());
                 message.setBody(data);
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        if(e == null){
+                        if (e == null) {
                             updateObject(message);
-                        }
-                        else {
-                            Log.e(TAG,"Falied to save message");
+                        } else {
+                            Log.e(TAG, "Falied to save message");
                         }
                     }
                 });
@@ -131,7 +136,7 @@ public class ChatActivity extends BreakFastActivity {
 
     private void updateObject(Message message) {
         ParseQuery<Chat> query = ParseQuery.getQuery(Chat.class);
-        query.getInBackground("N4UwbR3wdC", (object, e) -> {
+        query.getInBackground(chat.getObjectId(), (object, e) -> {
             if (e == null) {
                 ParseRelation<Message> relation = object.getRelation("groupMessages");
                 relation.add(message);
@@ -144,42 +149,56 @@ public class ChatActivity extends BreakFastActivity {
 
             } else {
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e(TAG,e.toString());
+                Log.e(TAG, e.toString());
             }
         });
     }
 
     void refreshMessages() {
-
         ParseQuery<Chat> query = ParseQuery.getQuery(Chat.class);
         query.findInBackground(new FindCallback<Chat>() {
             @Override
             public void done(List<Chat> chats, ParseException e) {
-                if(e == null){
-                    ParseRelation <Message> mRelation = chats.get(1).getRelation("groupMessages");
-                    ParseQuery<Message> mQuery = mRelation.getQuery();
-                    mQuery.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
-                    mQuery.orderByDescending("createdAt");
-                    mQuery.findInBackground(new FindCallback<Message>() {
-                        @Override
-                        public void done(List<Message> groupMessage, ParseException e) {
-                            if(e == null){
-                                mMessages.clear();
-                                mMessages.addAll(groupMessage);
-                                mAdapter.notifyDataSetChanged();
-                            }
-                            else {
-                                Log.e(TAG,"Error Loading Messages"+ e);
+                if (e == null) {
+                    for (Chat c : chats) {
+                        if (Objects.equals(c.getObjectId(), chat.getObjectId())) {
+                            ParseRelation<Message> mRelation = c.getRelation("groupMessages");
+                            ParseQuery<Message> mQuery = mRelation.getQuery();
+                            mQuery.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
+                            mQuery.orderByDescending("createdAt");
+                            mQuery.findInBackground(new FindCallback<Message>() {
+                                @Override
+                                public void done(List<Message> groupMessage, ParseException e) {
+                                    if (e == null) {
+                                        mMessages.clear();
+                                        mMessages.addAll(groupMessage);
+                                        mAdapter.notifyDataSetChanged();
+                                    } else {
+                                        Log.e(TAG, "Error Loading Messages" + e);
+                                    }
+                                }
+                            });
+                            if (mFirstLoad) {
+                                rvChat.scrollToPosition(0);
+                                mFirstLoad = false;
+                            } else {
+                                Log.e(TAG, "Error Loading Messages" + e);
                             }
                         }
-                    });
-                    if(mFirstLoad){
-                        rvChat.scrollToPosition(0);
-                        mFirstLoad = false;
                     }
-                    else {
-                        Log.e(TAG,"Error Loading Messages"+ e);
-                    }
+                }
+            }
+        });
+    }
+
+    public void login() {
+        ParseAnonymousUtils.logIn(new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Anonymous Login Failed:", e);
+                } else {
+                    startWithCurrentUser();
                 }
             }
         });

@@ -1,29 +1,29 @@
 package com.example.foodmates.fragments;
-
-import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.example.foodmates.Activities.BreakFastActivity;
-import com.example.foodmates.Activities.ChatActivity;
+import com.example.foodmates.Adapters.GroupChatAdapter;
 import com.example.foodmates.Models.Chat;
-import com.example.foodmates.Models.Message;
 import com.example.foodmates.R;
-import com.parse.ParseRelation;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FoodHubFragment extends Fragment {
 
-    TextView GeneralGroup;
-    TextView breakfast;
-
+    private static final String TAG = "FoodHubFragment";
+    List<Chat> chats;
+    RecyclerView rvGroupChat;
+    GroupChatAdapter groupChatAdapter;
 
 
     public FoodHubFragment() {
@@ -49,33 +49,28 @@ public class FoodHubFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        rvGroupChat = view.findViewById(R.id.rvGroupChat);
+        chats = new ArrayList<>();
+        groupChatAdapter = new GroupChatAdapter(getContext(), chats);
 
-        GeneralGroup = view.findViewById(R.id.GeneralGroup);
-        breakfast = view.findViewById(R.id.breakfast);
+        rvGroupChat.setAdapter(groupChatAdapter);
+        rvGroupChat.setLayoutManager(new LinearLayoutManager(getContext()));
+        queryGroups();
 
-        GeneralGroup.setOnClickListener(new View.OnClickListener() {
+    }
+
+    public void queryGroups() {
+        ParseQuery<Chat> query = ParseQuery.getQuery(Chat.class);
+        query.findInBackground(new FindCallback<Chat>() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ChatActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-        breakfast.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), BreakFastActivity.class);
-                startActivity(intent);
+            public void done(List<Chat> groups, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting posts", e);
+                    return;
+                }
+                chats.addAll(groups);
+                groupChatAdapter.notifyDataSetChanged();
             }
         });
     }
-
-    private void createChat(String name) {
-        Chat chat = new Chat();
-        chat.setGroupName(name);
-        ParseRelation<Message> relation = chat.getRelation("groupMessages");
-        chat.put("groupMessages",relation);
-    }
-
 }

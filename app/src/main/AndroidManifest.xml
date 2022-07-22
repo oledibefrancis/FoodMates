@@ -37,9 +37,6 @@
             android:name=".Activities.PostDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.BreakFastActivity"
-            android:exported="false" />
-        <activity
             android:name=".Activities.ChatActivity"
             android:exported="false" />
         <activity

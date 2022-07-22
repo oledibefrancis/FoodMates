@@ -37,6 +37,7 @@
         android:id="@+id/rvChat"
         android:layout_width="413dp"
         android:layout_height="678dp"
+        android:padding="5dp"
         app:layout_constraintBottom_toTopOf="@+id/etMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
