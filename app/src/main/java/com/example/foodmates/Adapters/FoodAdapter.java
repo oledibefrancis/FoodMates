@@ -95,6 +95,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
         });
     }
 
+
     @Override
     public int getItemCount() {
         return feedsToShow.size();
@@ -137,7 +138,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
         public void bind(Food food) {
             foodTitle.setText(food.getTitle());
             String imageUrl;
-            imageUrl = food.getImageurl();
+            imageUrl = food.getImageUrl();
             Glide.with(context).load((imageUrl)).into(foodImage);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

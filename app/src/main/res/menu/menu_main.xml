@@ -19,13 +19,12 @@
 
 
     <item
-            android:title="Filter1" />
+        android:id="@+id/FilterOne"
+            android:title="Newest" />
     <item
-        android:title="Filter2" />
-    <item
-        android:title="Filter3" />
-    <item
-        android:title="Filter4" />
+        android:id="@+id/FilterTwo"
+        android:title="Oldest" />
+
 
 
 

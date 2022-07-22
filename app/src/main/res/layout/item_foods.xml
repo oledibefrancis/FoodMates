@@ -10,9 +10,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:cardCornerRadius="15dp"
-    android:layout_margin="10dp"
+    android:layout_marginHorizontal="15dp"
+    android:layout_marginVertical="10dp"
     app:contentPadding="4dp"
-    app:cardElevation="7dp" >
+    app:cardElevation="5dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,25 +49,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
-                android:text="somzy"
                 android:textColor="@color/black"
                 android:gravity="center"
                 />
             <TextView
+                android:id="@+id/posted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:text="posted"
+                android:visibility="invisible"
                 android:textSize="15dp"
                 android:textColor="@color/black"
                 android:gravity="center"
-                android:text="posted"
                 />
             <TextView
                 android:id="@+id/createdAt"
                 android:layout_marginStart="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="12.30"
                 android:textSize="15dp"
                 android:textColor="@color/black"
                 android:gravity="center"
@@ -98,7 +99,7 @@
 
     <ImageView
         android:id="@+id/btnSave"
-        android:layout_marginStart="325dp"
+        android:layout_marginStart="310dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"

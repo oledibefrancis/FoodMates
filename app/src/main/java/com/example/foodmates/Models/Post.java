@@ -19,39 +19,46 @@ import java.util.List;
 
 @ParseClassName("Post")
 public class Post extends ParseObject {
-    public static final String  KEY_DESCRIPTION = "description";
-    public static final String  KEY_IMAGE = "image";
-    public static final String  KEY_IMAGE_URL = "imageurl";
-    public static final String  KEY_USER = "user";
-    public static final String  KEY_TITLE ="title";
-
+    public static final String KEY_DESCRIPTION = "description";
+    public static final String KEY_IMAGE = "image";
+    public static final String KEY_IMAGE_URL = "imageurl";
+    public static final String KEY_USER = "user";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_ID = "postId";
+    public static final String KEY_DETAILS ="details";
 
 
     public Post() {//default constructor
     }
 
 
-    public String getDescription(){
+    public String getDescription() {
         return getString(KEY_DESCRIPTION);
     }
-    public void setDescription(String description){
-        put(KEY_DESCRIPTION,description);
+
+    public void setDescription(String description) {
+        put(KEY_DESCRIPTION, description);
     }
-    public ParseFile getImage(){
+
+    public ParseFile getImage() {
         return getParseFile(KEY_IMAGE);
     }
-    public void setImage(ParseFile parseFile){
+
+    public void setImage(ParseFile parseFile) {
         put(KEY_IMAGE, parseFile);
     }
-    public String getImageUrl(){
+
+    public String getImageUrl() {
         return getString(KEY_IMAGE_URL);
     }
-    public void setImageUrl(String imageUrl){
+
+    public void setImageUrl(String imageUrl) {
         put(KEY_IMAGE_URL, imageUrl);
     }
-    public ParseUser getUser(){
+
+    public ParseUser getUser() {
         ParseUser user = getParseUser(KEY_USER);
-        if (user != null){
+        if (user != null) {
             try {
                 assert user != null;
                 user.fetchIfNeeded();
@@ -59,13 +66,35 @@ public class Post extends ParseObject {
                 e.printStackTrace();
             }
         }
-        return user;    }
-    public void setUser(ParseUser user){
-        put(KEY_USER,user);
+        return user;
     }
-    public String getKeyTitle(){return getString(KEY_TITLE);};
-    public void setTitle(String title){put(KEY_TITLE,title);}
 
+    public void setUser(ParseUser user) {
+        put(KEY_USER, user);
+    }
+
+    public String getKeyTitle() {
+        return getString(KEY_TITLE);
+    }
+
+    public void setTitle(String title) {
+        put(KEY_TITLE, title);
+    }
+
+    public String getId() {
+        return getString(KEY_ID);
+    }
+
+    public void setId(String id) {
+        put(KEY_ID, id);
+    }
+
+    public String getDetail() {
+        return getString(KEY_DETAILS);
+    }
+    public void setDetail(String detail) {
+        put(KEY_DETAILS, detail);
+    }
 
 
     public String calculateTimeAgo() {

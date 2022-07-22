@@ -111,7 +111,6 @@ public class PostDetailsActivity extends AppCompatActivity {
                 @Override
                 public void done(ParseException e) {
                     if(e == null){
-                        Toast.makeText(getBaseContext(), "Successfully saved api result to database", Toast.LENGTH_SHORT).show();
                     }
                     else {
                         Log.e(TAG,"Failed to save api result to database");

@@ -1,51 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignEnd="@id/card">
+    android:layout_width="match_parent"
+    android:backgroundTint="#F2E8E0"
+    android:background="#F2E8E0"
+    android:layout_margin="7dp"
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
+        android:background="@color/green"
         android:backgroundTint="@color/white"
-        android:clickable="true"
+        android:layout_marginEnd="10dp"
         app:cardCornerRadius="15dp"
-        app:cardElevation="7dp">
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
             android:orientation="horizontal">
-
 
             <TextView
                 android:id="@+id/tvBody"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
+                android:layout_height="64dp"
+                android:layout_toLeftOf="@+id/ivProfileMe"
+                android:backgroundTint="@color/white"
                 android:elevation="2dp"
                 android:padding="8dp"
                 android:text="Your outgoing message here"
-                android:textSize="18dp" />
+                android:textColor="@android:color/black"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ivProfileMe"
+                app:layout_constraintEnd_toStartOf="@+id/ivProfileMe"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/ivProfileMe"
-                android:layout_width="72dp"
-                android:layout_height="62dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_alignParentRight="true"
                 android:contentDescription="@string/profile_me"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
         </LinearLayout>
-
-
     </androidx.cardview.widget.CardView>
 
 
-</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

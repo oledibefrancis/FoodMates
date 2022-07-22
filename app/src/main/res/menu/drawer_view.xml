@@ -5,22 +5,6 @@
     tools:showIn="navigation_view"
 
     >
-<group
-    android:checkableBehavior="single">
 
-    <item
-        android:id="@+id/FilterOne"
-        android:title="FilterOne"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/FilterTwo"
-        android:title="FilterTwo"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/FilterThree"
-        android:title="FilterThree"
-        app:showAsAction="always" />
-
-</group>
 
 </menu>
