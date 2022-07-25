@@ -1,12 +1,15 @@
 package com.example.foodmates.Adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.foodmates.Models.Message;
 import com.example.foodmates.R;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -83,6 +87,41 @@ public class chatAdapter extends RecyclerView.Adapter<chatAdapter.MessageViewHol
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         Message message = mMessages.get(position);
         holder.bindMessage(message);
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setMessage("Do you want to delete this message?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteObject(message.getObjectId());
+                                mMessages.remove(position);
+                                notifyDataSetChanged();
+                            }
+                        }).setNegativeButton("No", null);
+                AlertDialog alert = builder.create();
+                alert.show();
+                return false;
+            }
+        });
+    }
+
+    private void deleteObject(String objectId) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Message");
+        query.getInBackground(objectId, (object, e) -> {
+            if (e == null) {
+                object.deleteInBackground(e2 -> {
+                    if (e2 == null) {
+                        Toast.makeText(mContext, "Delete Successful", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(mContext, "Error: " + e2.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
