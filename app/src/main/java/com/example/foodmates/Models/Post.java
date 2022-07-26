@@ -2,6 +2,7 @@ package com.example.foodmates.Models;
 
 import android.util.Log;
 
+import com.example.foodmates.FeedItem;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -18,8 +19,7 @@ import java.util.List;
 
 
 @ParseClassName("Post")
-public class Post extends ParseObject {
-    public static final String KEY_DESCRIPTION = "description";
+public class Post extends ParseObject implements FeedItem {
     public static final String KEY_IMAGE = "image";
     public static final String KEY_IMAGE_URL = "imageurl";
     public static final String KEY_USER = "user";
@@ -31,15 +31,6 @@ public class Post extends ParseObject {
     public Post() {//default constructor
     }
 
-
-    public String getDescription() {
-        return getString(KEY_DESCRIPTION);
-    }
-
-    public void setDescription(String description) {
-        put(KEY_DESCRIPTION, description);
-    }
-
     public ParseFile getImage() {
         return getParseFile(KEY_IMAGE);
     }
@@ -48,6 +39,8 @@ public class Post extends ParseObject {
         put(KEY_IMAGE, parseFile);
     }
 
+
+    @Override
     public String getImageUrl() {
         return getString(KEY_IMAGE_URL);
     }
@@ -73,7 +66,8 @@ public class Post extends ParseObject {
         put(KEY_USER, user);
     }
 
-    public String getKeyTitle() {
+    @Override
+    public String getTitle() {
         return getString(KEY_TITLE);
     }
 
@@ -81,12 +75,13 @@ public class Post extends ParseObject {
         put(KEY_TITLE, title);
     }
 
-    public String getId() {
-        return getString(KEY_ID);
-    }
-
     public void setId(String id) {
         put(KEY_ID, id);
+    }
+
+    @Override
+    public String getId() {
+        return getString(KEY_ID);
     }
 
     public String getDetail() {

@@ -1,5 +1,7 @@
 package com.example.foodmates.Models;
 
+import com.example.foodmates.FeedItem;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,13 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Parcel
-public class Food {
+public class Food implements FeedItem {
     public String title;
     public String imageurl;
-    public String calories;
-    public String carbs;
-    public String fat;
-    public String protein;
+    public String id;
     List<Post> posts;
 
     public Food() {
@@ -25,32 +24,30 @@ public class Food {
         Food food = new Food();
         food.title = jsonObject.getString("title");
         food.imageurl = jsonObject.getString("image");
-        //TODO
-//        food.calories = jsonObject.getString("calories");
-//        food.carbs = jsonObject.getString("carbs");
-//        food.fat = jsonObject.getString("fat");
-//        food.protein = jsonObject.getString("protein");
+        food.id = jsonObject.getString("id");
         return food;
     }
 
-    public  static List<Food> fromJsonArray(JSONArray jsonArray) throws JSONException {
-         List<Food> foods = new ArrayList<>();
-         for (int i = 0 ; i < jsonArray.length(); i++){
-             foods.add(fromJson(jsonArray.getJSONObject(i)));
-         }
-         return foods;
+    public static List<Food> fromJsonArray(JSONArray jsonArray) throws JSONException {
+        List<Food> foods = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            foods.add(fromJson(jsonArray.getJSONObject(i)));
+        }
+        return foods;
     }
 
+    @Override
+    public String getTitle() {
+        return title;
+    }
 
-    public  String getTitle(){return title;}
+    @Override
+    public String getImageUrl() {
+        return imageurl;
+    }
 
-    public String getImageurl(){return imageurl;}
-
-    public String getCalories(){return calories;}
-
-    public String getCarbs(){return carbs;}
-
-    public String getFat(){return fat;}
-
-    public String getProtein(){ return protein; }
+    @Override
+    public String getId() {
+        return id;
+    }
 }
