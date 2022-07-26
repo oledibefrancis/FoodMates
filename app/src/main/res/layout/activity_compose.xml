@@ -82,5 +82,14 @@ tools:context=".Activities.ComposeActivity">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etDescription" />
 
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="49dp"
+        android:layout_height="49dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

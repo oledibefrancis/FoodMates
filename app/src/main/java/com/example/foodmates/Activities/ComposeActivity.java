@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 //import com.example.careermatch.R;
@@ -51,6 +52,7 @@ public class ComposeActivity extends AppCompatActivity {
     ImageView ivPostImage;
     EditText etTitle;
     Button btnPickImage;
+    ProgressBar progressBar;
     private File photoFile;
     private ParseFile image;
 
@@ -66,10 +68,13 @@ public class ComposeActivity extends AppCompatActivity {
         ivPostImage = findViewById(R.id.ivPostImage);
         etTitle = findViewById(R.id.etTitle);
         btnPickImage = findViewById(R.id.btnPickImage);
+        progressBar = findViewById(R.id.pbLoading);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(ProgressBar.VISIBLE);
+
                 btnSubmit.setClickable(false);
 
                 String description = etDescription.getText().toString();
@@ -92,7 +97,7 @@ public class ComposeActivity extends AppCompatActivity {
             private void savePost(String description, ParseUser currentUser, File photoFile, String title) {
                 Toast.makeText(ComposeActivity.this, "Saving post. Please wait", Toast.LENGTH_SHORT).show();
                 Post post = new Post();
-                post.setDescription(description);
+                post.setDetail(description);
                 post.setTitle(title);
                 post.setImage(image);
                 post.setUser(currentUser);
@@ -113,18 +118,10 @@ public class ComposeActivity extends AppCompatActivity {
                         etTitle.setText("");
                         ivPostImage.setImageResource(0);
                         btnSubmit.setClickable(true);
+                        progressBar.setVisibility(ProgressBar.INVISIBLE);
                         finish();
                     }
                 });
-                ParseUser user = ParseUser.getCurrentUser();
-                ParseRelation<Post> relation = user.getRelation("userPost");
-                relation.add(post);
-                user.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                    }
-                });
-
             }
         });
 
