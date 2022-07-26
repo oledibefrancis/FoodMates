@@ -24,16 +24,14 @@ import android.widget.Toast;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.foodmates.Activities.ComposeActivity;
-import com.example.foodmates.Adapters.PostAdapter;
+import com.example.foodmates.Adapters.FeedAdapter;
+import com.example.foodmates.FeedItem;
 import com.example.foodmates.Models.Food;
-import com.example.foodmates.Adapters.FoodAdapter;
 import com.example.foodmates.Models.Post;
 import com.example.foodmates.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.json.JSONArray;
@@ -51,14 +49,13 @@ public class HomeFragment extends Fragment {
     public static final String API_URL = "https://api.spoonacular.com/recipes/complexSearch?apiKey=8cf7ac7ac6f449e49a93e9cf5576c873";
     public final static int REQUEST_CODE = 2031;
     public static final int NUMBER_OF_COLUMNS = 2;
-    List<Post> posts;
-    List<Food> foods;
+    List<FeedItem> posts;
+    List<FeedItem> foods;
     RecyclerView rvHomeFeeds;
     android.widget.Toolbar tbHome;
     private static final String TAG = "HomeFragment";
-    PostAdapter postAdapter;
+    FeedAdapter feedAdapter;
     SwipeRefreshLayout swipeContainer;
-    FoodAdapter foodAdapter;
 
 
     public HomeFragment() {
@@ -86,8 +83,8 @@ public class HomeFragment extends Fragment {
 //        apiCall();
 
         posts = new ArrayList<>();
-        postAdapter = new PostAdapter(getContext(),posts);
-        rvHomeFeeds.setAdapter(postAdapter);
+        feedAdapter = new FeedAdapter(getContext(),posts);
+        rvHomeFeeds.setAdapter(feedAdapter);
         rvHomeFeeds.setLayoutManager(new LinearLayoutManager(getContext()));
         queryPosts();
 
@@ -128,22 +125,10 @@ public class HomeFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-//                postAdapter.getFilter().filter(newText);
+//                feedAdapter.getFilter().filter(newText);
                 return false;
             }
         });
-    }
-
-
-    public static Food fromJson(JSONObject jsonObject) throws JSONException {
-        Food food = new Food();
-        food.title = jsonObject.getString("title");
-        food.imageurl = jsonObject.getString("image");
-//        food.calories = jsonObject.getString("calories");
-//        food.carbs = jsonObject.getString("carbs");
-//        food.fat = jsonObject.getString("fat");
-//        food.protein = jsonObject.getString("protein");
-        return food;
     }
 
     private boolean getSearchResults(String searchValue) {
@@ -160,10 +145,10 @@ public class HomeFragment extends Fragment {
                     JSONArray results = jsonObject.getJSONArray("results");
                     Log.i(TAG, "Results: " + results);
                     foods.addAll(Food.fromJsonArray(results));
-                    foodAdapter = new FoodAdapter(getContext(), foods);
+                    feedAdapter = new FeedAdapter(getContext(), foods);
 //                   saveInDataBase(results);
-                    foodAdapter.notifyDataSetChanged();
-                    rvHomeFeeds.setAdapter(foodAdapter);
+                    feedAdapter.notifyDataSetChanged();
+                    rvHomeFeeds.setAdapter(feedAdapter);
                     rvHomeFeeds.setLayoutManager(new GridLayoutManager(getContext(),NUMBER_OF_COLUMNS));
                     Log.i(TAG, "food: " + foods.size());
                 } catch (JSONException e) {
@@ -182,13 +167,14 @@ public class HomeFragment extends Fragment {
     private void saveInDataBase(JSONArray results) {
         for (int i = 0 ; i <=results.length(); i++){
             try {
-                foods.add(fromJson(results.getJSONObject(i)));
+                foods.add(Food.fromJson(results.getJSONObject(i)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             Post post = new Post();
             post.setTitle(foods.get(foods.size()-1).getTitle());
-            post.setImageUrl(foods.get(foods.size()-1).getImageurl());
+            post.setImageUrl(foods.get(foods.size()-1).getImageUrl());
+            post.setId(foods.get(foods.size()-1).getId());
             post.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
@@ -243,15 +229,15 @@ public class HomeFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.FilterOne:
-                postAdapter.clear();
+                feedAdapter.clear();
                 queryPostsNewest();
-                postAdapter.notifyDataSetChanged();
+                feedAdapter.notifyDataSetChanged();
                 return true;
 
             case R.id.FilterTwo:
-                postAdapter.clear();
+                feedAdapter.clear();
                 queryPostsOldest();
-                postAdapter.notifyDataSetChanged();
+                feedAdapter.notifyDataSetChanged();
 
                 return true;
 
@@ -266,8 +252,8 @@ public class HomeFragment extends Fragment {
 
 
     private void fetchFeeds() {
-        postAdapter.clear();
-        postAdapter.addAll(posts);
+        feedAdapter.clear();
+        feedAdapter.addAll(posts);
         swipeContainer.setRefreshing(false);
     }
 
@@ -283,14 +269,10 @@ public class HomeFragment extends Fragment {
                     Log.e(TAG,"Issue with getting posts", e);
                     return;
                 }
-                for(Post post : dataPosts){
-                    Log.i(TAG, "Post" + post.getKeyTitle());
-                }
                 posts.addAll(dataPosts);
-                postAdapter.notifyDataSetChanged();
+                feedAdapter.notifyDataSetChanged();
             }
         });
-
     }
 
     private void queryPostsOldest() {
@@ -307,7 +289,7 @@ public class HomeFragment extends Fragment {
                     return;
                 }
                 posts.addAll(dataPosts);
-                postAdapter.notifyDataSetChanged();
+                feedAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -326,7 +308,7 @@ public class HomeFragment extends Fragment {
                     return;
                 }
                 posts.addAll(dataPosts);
-                postAdapter.notifyDataSetChanged();
+                feedAdapter.notifyDataSetChanged();
             }
         });
     }
