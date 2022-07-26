@@ -2,15 +2,14 @@ package com.example.foodmates.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.foodmates.Adapters.PostAdapter;
+import com.example.foodmates.Adapters.FeedAdapter;
+import com.example.foodmates.FeedItem;
 import com.example.foodmates.Models.Post;
 import com.example.foodmates.R;
 import com.parse.FindCallback;
@@ -26,8 +25,8 @@ public class SavedPostActivity extends AppCompatActivity {
     public static final String TAG = "savedPostActivity";
     private static final int NUMBER_OF_COLUMNS = 2;
 
-    List<Post> posts;
-    PostAdapter postAdapter;
+    List<FeedItem> posts;
+    FeedAdapter feedAdapter;
     SwipeRefreshLayout swipeContainer;
 
 
@@ -38,8 +37,8 @@ public class SavedPostActivity extends AppCompatActivity {
 
         RecyclerView rvMovies = findViewById(R.id.rvSavedFeeds);
         posts = new ArrayList<>();
-        postAdapter = new PostAdapter(this, posts);
-        rvMovies.setAdapter(postAdapter);
+        feedAdapter = new FeedAdapter(this, posts);
+        rvMovies.setAdapter(feedAdapter);
         rvMovies.setLayoutManager(new GridLayoutManager(this, NUMBER_OF_COLUMNS));
         queryPosts();
 
@@ -58,8 +57,8 @@ public class SavedPostActivity extends AppCompatActivity {
     }
 
     private void fetchFeeds() {
-        postAdapter.clear();
-        postAdapter.addAll(posts);
+        feedAdapter.clear();
+        feedAdapter.addAll(posts);
         swipeContainer.setRefreshing(false);
     }
 
@@ -76,7 +75,7 @@ public class SavedPostActivity extends AppCompatActivity {
                     return;
                 }
                 posts.addAll(savedPosts);
-                postAdapter.notifyDataSetChanged();
+                feedAdapter.notifyDataSetChanged();
             }
         });
 

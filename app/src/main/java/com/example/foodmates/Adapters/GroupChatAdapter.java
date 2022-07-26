@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,10 +15,12 @@ import com.bumptech.glide.Glide;
 import com.example.foodmates.Activities.ChatActivity;
 import com.example.foodmates.Models.Chat;
 import com.example.foodmates.R;
+
 import org.parceler.Parcels;
+
 import java.util.List;
 
-public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.ViewHolder>{
+public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.ViewHolder> {
     Context context;
     List<Chat> chats;
 
@@ -52,14 +55,14 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.View
         return chats.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView groupName;
         ImageView groupImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             groupName = itemView.findViewById(R.id.groupName);
-            groupImage =itemView.findViewById(R.id.groupImage);
+            groupImage = itemView.findViewById(R.id.groupImage);
         }
 
         public void bind(Chat chat) {
