@@ -19,11 +19,12 @@
 
     <Button
         android:id="@+id/logOutBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:layout_margin="45dp"
+        android:textColor="@color/green"
         android:layout_marginBottom="172dp"
-        android:background="@drawable/roundstyle"
+        android:background="@drawable/button_bg"
         android:text="LOGOUT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/profilePicture"

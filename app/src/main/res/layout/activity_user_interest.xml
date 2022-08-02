@@ -77,10 +77,11 @@
 
     <Button
         android:id="@+id/btnSubmit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/green"
+        android:background="@drawable/button_bg"
+        android:textColor="@color/green"
         android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

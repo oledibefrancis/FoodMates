@@ -25,7 +25,7 @@ public class Post extends ParseObject implements FeedItem {
     public static final String KEY_USER = "user";
     public static final String KEY_TITLE = "title";
     public static final String KEY_ID = "postId";
-    public static final String KEY_DETAILS ="details";
+    public static final String KEY_DETAILS = "details";
 
 
     public Post() {//default constructor
@@ -75,18 +75,19 @@ public class Post extends ParseObject implements FeedItem {
         put(KEY_TITLE, title);
     }
 
-    public void setId(String id) {
-        put(KEY_ID, id);
-    }
-
     @Override
     public String getId() {
         return getString(KEY_ID);
     }
 
+    public void setId(String id) {
+        put(KEY_ID, id);
+    }
+
     public String getDetail() {
         return getString(KEY_DETAILS);
     }
+
     public void setDetail(String detail) {
         put(KEY_DETAILS, detail);
     }
@@ -117,10 +118,9 @@ public class Post extends ParseObject implements FeedItem {
                 return diff / HOUR_MILLIS + " h";
             } else if (diff < 48 * HOUR_MILLIS) {
                 return "yesterday";
-            }
-            else if(diff / DAY_MILLIS > 7 ){
+            } else if (diff / DAY_MILLIS > 7) {
                 return "a week";
-            }else {
+            } else {
                 return diff / DAY_MILLIS + " d";
             }
         } catch (Exception e) {

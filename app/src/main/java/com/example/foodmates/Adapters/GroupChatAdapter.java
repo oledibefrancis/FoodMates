@@ -79,18 +79,17 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.View
                     .into(groupImage);
 
             ParseUser user = ParseUser.getCurrentUser();
-            ParseRelation<Chat > relation = user.getRelation("userGroups");
+            ParseRelation<Chat> relation = user.getRelation("userGroups");
             ParseQuery<Chat> query = relation.getQuery();
             query.findInBackground(new FindCallback<Chat>() {
                 @Override
                 public void done(List<Chat> groups, ParseException e) {
-                    for(Chat g : groups){
-                        if (Objects.equals(g.getObjectId(), chat.getObjectId())){
+                    for (Chat g : groups) {
+                        if (Objects.equals(g.getObjectId(), chat.getObjectId())) {
                             openGroup.setVisibility(View.VISIBLE);
                             joinGroup.setVisibility(View.INVISIBLE);
                             return;
-                        }
-                        else {
+                        } else {
                             joinGroup.setVisibility(View.VISIBLE);
                             openGroup.setVisibility(View.INVISIBLE);
                         }

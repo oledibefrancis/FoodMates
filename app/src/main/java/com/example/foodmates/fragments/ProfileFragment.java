@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.example.foodmates.Activities.LoginActivity;
 import com.example.foodmates.Activities.SavedPostActivity;
@@ -34,9 +36,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 2567;
-    public String photoFileName = "photo.jpg";
-
     private static final String TAG = "ProfileFragment";
+    public String photoFileName = "photo.jpg";
     Button logOutBtn;
     TextView username;
     TextView profileEmail;
@@ -44,7 +45,6 @@ public class ProfileFragment extends Fragment {
     TextView birthDate;
     TextView savedPost;
     CircleImageView profilePicture;
-
 
 
     public ProfileFragment() {
@@ -99,7 +99,6 @@ public class ProfileFragment extends Fragment {
         profileEmail.setText(ParseUser.getCurrentUser().getEmail());
         contactNo.setText(ParseUser.getCurrentUser().getString("Contact"));
         birthDate.setText(ParseUser.getCurrentUser().getString("Date"));
-
 
 
         logOutBtn.setOnClickListener(new View.OnClickListener() {

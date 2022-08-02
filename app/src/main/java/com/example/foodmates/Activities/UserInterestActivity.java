@@ -31,12 +31,13 @@ public class UserInterestActivity extends SignupActivity {
         String interestOne = interest1.getText().toString();
         String interestTwo = interest2.getText().toString();
         String interestThree = interest3.getText().toString();
-        getUserInterest(interestOne,interestTwo,interestThree);
+        getUserInterest(interestOne, interestTwo, interestThree);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserInterestActivity.this, MainActivity.class);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 startActivity(intent);
                 finish();
             }

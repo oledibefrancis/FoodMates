@@ -96,7 +96,7 @@ public class FoodHubFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.addGroup:
                 groupAdd();
                 return true;
@@ -111,7 +111,7 @@ public class FoodHubFragment extends Fragment {
 
     public void queryGroups() {
         ParseUser user = ParseUser.getCurrentUser();
-        ParseRelation<Chat > relation = user.getRelation("userGroups");
+        ParseRelation<Chat> relation = user.getRelation("userGroups");
         ParseQuery<Chat> query = relation.getQuery();
         query.findInBackground(new FindCallback<Chat>() {
             @Override
@@ -137,7 +137,7 @@ public class FoodHubFragment extends Fragment {
                     Log.e(TAG, "Issue with getting posts", e);
                     return;
                 }
-                for (Chat c : groups){
+                for (Chat c : groups) {
                     suggestedChat.add(c);
                     suggestedChatAdapter.notifyDataSetChanged();
                 }

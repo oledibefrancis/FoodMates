@@ -49,11 +49,11 @@ public class HomeFragment extends Fragment {
     public static final String API_URL = "https://api.spoonacular.com/recipes/complexSearch?apiKey=66ed036507b74261af45f98c30aa8f69";
     public final static int REQUEST_CODE = 2031;
     public static final int NUMBER_OF_COLUMNS = 2;
+    private static final String TAG = "HomeFragment";
     List<FeedItem> posts;
     List<FeedItem> foods;
     RecyclerView rvHomeFeeds;
     android.widget.Toolbar tbHome;
-    private static final String TAG = "HomeFragment";
     FeedAdapter feedAdapter;
     SwipeRefreshLayout swipeContainer;
 
@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
 //        apiCall();
 
         posts = new ArrayList<>();
-        feedAdapter = new FeedAdapter(getContext(),posts);
+        feedAdapter = new FeedAdapter(getContext(), posts);
         rvHomeFeeds.setAdapter(feedAdapter);
         rvHomeFeeds.setLayoutManager(new LinearLayoutManager(getContext()));
         queryPosts();
@@ -134,7 +134,7 @@ public class HomeFragment extends Fragment {
 
     private boolean getSearchResults(String searchValue) {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(API_URL+"&query="+searchValue, new JsonHttpResponseHandler() {
+        client.get(API_URL + "&query=" + searchValue, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
 
@@ -148,13 +148,14 @@ public class HomeFragment extends Fragment {
                     feedAdapter = new FeedAdapter(getContext(), foods);
                     feedAdapter.notifyDataSetChanged();
                     rvHomeFeeds.setAdapter(feedAdapter);
-                    rvHomeFeeds.setLayoutManager(new GridLayoutManager(getContext(),NUMBER_OF_COLUMNS));
+                    rvHomeFeeds.setLayoutManager(new GridLayoutManager(getContext(), NUMBER_OF_COLUMNS));
                     Log.i(TAG, "food: " + foods.size());
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit json exception", e);
                 }
 
             }
+
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 Log.d(TAG, "onFailure");
@@ -164,25 +165,24 @@ public class HomeFragment extends Fragment {
     }
 
     private void saveInDataBase(JSONArray results) {
-        for (int i = 0 ; i <=results.length(); i++){
+        for (int i = 0; i <= results.length(); i++) {
             try {
                 foods.add(Food.fromJson(results.getJSONObject(i)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             Post post = new Post();
-            post.setTitle(foods.get(foods.size()-1).getTitle());
-            post.setImageUrl(foods.get(foods.size()-1).getImageUrl());
-            post.setId(foods.get(foods.size()-1).getId());
+            post.setTitle(foods.get(foods.size() - 1).getTitle());
+            post.setImageUrl(foods.get(foods.size() - 1).getImageUrl());
+            post.setId(foods.get(foods.size() - 1).getId());
             post.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    if(e == null){
+                    if (e == null) {
                         Toast.makeText(getActivity(), "Successfully saved api result to database", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Log.e(TAG,"Failed to save api result to database");
-                        Log.e(TAG,e.toString());
+                    } else {
+                        Log.e(TAG, "Failed to save api result to database");
+                        Log.e(TAG, e.toString());
                     }
                 }
             });
@@ -206,6 +206,7 @@ public class HomeFragment extends Fragment {
                     Log.e("HomeFragment", "Error Storing api data: " + e.toString());
                 }
             }
+
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 Log.e(TAG, "Unable to load api", throwable);
@@ -239,8 +240,8 @@ public class HomeFragment extends Fragment {
                 return true;
 
             case R.id.addPost:
-            onCompose();
-            return true;
+                onCompose();
+                return true;
 
         }
 
@@ -262,8 +263,8 @@ public class HomeFragment extends Fragment {
         query.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> dataPosts, ParseException e) {
-                if(e != null){
-                    Log.e(TAG,"Issue with getting posts", e);
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting posts", e);
                     return;
                 }
                 posts.addAll(dataPosts);

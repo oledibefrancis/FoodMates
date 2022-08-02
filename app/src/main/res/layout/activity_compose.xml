@@ -22,23 +22,24 @@ tools:context=".Activities.ComposeActivity">
 
     <Button
         android:id="@+id/btnCaptureImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/roundstyle"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_bg"
         android:text="@string/take_picture"
-        app:layout_constraintEnd_toEndOf="@+id/etDescription"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/etDescription"
+        android:textColor="@color/green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnPickImage" />
 
     <Button
         android:id="@+id/btnSubmit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="56dp"
-        android:background="@drawable/roundstyle"
+        android:background="@drawable/button_bg"
         android:text="@string/submit"
+        android:textColor="@color/green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btnCaptureImage"
         app:layout_constraintHorizontal_bias="0.0"
@@ -73,19 +74,20 @@ tools:context=".Activities.ComposeActivity">
 
     <Button
         android:id="@+id/btnPickImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/roundstyle"
+        android:layout_width="182dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/button_bg"
         android:text="UPLOAD PICTURE"
+        android:textColor="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etDescription" />
 
     <ProgressBar
         android:id="@+id/pbLoading"
-        android:layout_width="49dp"
-        android:layout_height="49dp"
+        android:layout_width="44dp"
+        android:layout_height="31dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

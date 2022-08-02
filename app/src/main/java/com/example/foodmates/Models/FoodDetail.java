@@ -13,11 +13,11 @@ public class FoodDetail {
 
     public String summary;
 
-    public FoodDetail()  {
+    public FoodDetail() {
     }
 
 
-    public FoodDetail(JSONObject jsonObject) throws JSONException  {
+    public FoodDetail(JSONObject jsonObject) throws JSONException {
         summary = jsonObject.getString("summary");
     }
 

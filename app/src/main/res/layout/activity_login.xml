@@ -29,22 +29,23 @@
         android:ems="10"
         android:hint="Enter password..."
         android:inputType="textPassword"
-
-
         app:layout_constraintEnd_toEndOf="@+id/etUsername"
         app:layout_constraintStart_toStartOf="@+id/etUsername"
         app:layout_constraintTop_toBottomOf="@+id/etUsername" />
 
+
     <Button
         android:id="@+id/etLoginButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="@color/green"
-        android:background="@drawable/roundstyle"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:background="@drawable/button_bg"
         android:text="LOGIN"
-        app:layout_constraintStart_toStartOf="@+id/etPassword"
+        android:textColor="@color/green"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
     <ImageView
@@ -57,18 +58,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 
+
     <Button
         android:id="@+id/etSignUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/roundstyle"
-        android:backgroundTint="@color/green"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="388dp"
+        android:layout_weight="1"
+        android:background="@drawable/button_bg"
         android:onClick="onSignUp"
         android:text="SIGNUP"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2"
-        app:layout_constraintStart_toStartOf="@+id/imageView2" />
+        android:textColor="@color/green"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
     <TextView
         android:id="@+id/textView2"
