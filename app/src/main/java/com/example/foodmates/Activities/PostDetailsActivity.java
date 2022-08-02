@@ -1,12 +1,15 @@
 package com.example.foodmates.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.text.HtmlCompat;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +21,11 @@ import com.example.foodmates.Models.Food;
 import com.example.foodmates.Models.FoodDetail;
 import com.example.foodmates.Models.Post;
 import com.example.foodmates.R;
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.json.JSONArray;
@@ -28,6 +35,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Headers;
 
@@ -42,16 +50,29 @@ public class PostDetailsActivity extends AppCompatActivity {
     TextView foodTitle;
     TextView usernameDetail;
     TextView createdAtDetail;
+    TextView postedDetail;
+    CardView cardDetail;
+    ImageView btnSavedDetail;
+    ImageView btnSaveDetail;
+    ImageView btnLikeDetail;
+    ImageView btnLikedDetail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
-        foodImage = (ImageView) findViewById(R.id.foodDetailImage);
-        foodTitle = (TextView) findViewById(R.id.foodDetailTitle);
-        usernameDetail = (TextView) findViewById(R.id.usernameDetail);
-        createdAtDetail = (TextView) findViewById(R.id.createdAtDetail);
-        postDetail = (TextView) findViewById(R.id.postDetail);
+        foodImage = findViewById(R.id.foodDetailImage);
+        foodTitle = findViewById(R.id.foodDetailTitle);
+        usernameDetail = findViewById(R.id.usernameDetail);
+        createdAtDetail = findViewById(R.id.createdAtDetail);
+        postDetail = findViewById(R.id.postDetail);
+        postedDetail = findViewById(R.id.postedDetail);
+        cardDetail = findViewById(R.id.cardDetail);
+        btnSavedDetail = findViewById(R.id.btnSavedDetail);
+        btnSaveDetail = findViewById(R.id.btnSaveDetail);
+        btnLikeDetail = findViewById(R.id.btnLikeDetail);
+        btnLikedDetail = findViewById(R.id.btnLikedDetail);
 
 
         post = (Post) Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
@@ -61,9 +82,9 @@ public class PostDetailsActivity extends AppCompatActivity {
         } else {
             Glide.with(this).load(post.getImage().getUrl()).into(foodImage);
         }
+        apiCall();
 
-
-        foodTitle.setText(post.getKeyTitle());
+        foodTitle.setText(post.getTitle());
         postDetail.setText(post.getDetail());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Log.i(TAG, "Post set: " + HtmlCompat.fromHtml(post.getDetail(), HtmlCompat.FROM_HTML_MODE_LEGACY));
@@ -71,18 +92,64 @@ public class PostDetailsActivity extends AppCompatActivity {
         } else {
             postDetail.setText(Html.fromHtml(post.getDetail()));
         }
+
         if (post.getUser() != null) {
             usernameDetail.setText(post.getUser().getUsername());
             createdAtDetail.setText(post.calculateTimeAgo());
-        }
-        apiCall();
+            cardDetail.setCardBackgroundColor(Color.parseColor("#C1EAB4"));
+            postedDetail.setVisibility(View.VISIBLE);
+        } else {
+            usernameDetail.setText("");
+            createdAtDetail.setText("");
+            cardDetail.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+            postedDetail.setVisibility(View.INVISIBLE);
 
+            ParseUser user = ParseUser.getCurrentUser();
+            ParseRelation<Post> relation = user.getRelation("likes");
+            ParseRelation<Post> savedRelation = user.getRelation("savedPost");
+            ParseQuery<Post> postQuery = relation.getQuery();
+            ParseQuery<Post> savedPostQuery = savedRelation.getQuery();
+
+
+            postQuery.findInBackground(new FindCallback<Post>() {
+                @Override
+                public void done(List<Post> liked, ParseException e) {
+                    for (Post p : liked) {
+                        if (Objects.equals(p.getObjectId(), post.getObjectId())) {
+                            btnLikedDetail.setVisibility(View.VISIBLE);
+                            btnLikeDetail.setVisibility(View.INVISIBLE);
+                            return;
+                        } else {
+                            btnLikedDetail.setVisibility(View.INVISIBLE);
+                            btnLikeDetail.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            });
+
+            savedPostQuery.findInBackground(new FindCallback<Post>() {
+                @Override
+                public void done(List<Post> saved, ParseException e) {
+                    for (Post s : saved) {
+                        if (Objects.equals(s.getObjectId(), post.getObjectId())) {
+                            btnSavedDetail.setVisibility(View.VISIBLE);
+                            btnSaveDetail.setVisibility(View.INVISIBLE);
+                            return;
+                        } else {
+                            btnSavedDetail.setVisibility(View.INVISIBLE);
+                            btnSaveDetail.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            });
+
+        }
 
     }
 
     public void apiCall() {
         AsyncHttpClient client = new AsyncHttpClient();
-        String url = String.format(API_URL,post.getId());
+        String url = String.format(API_URL, post.getId());
 
         client.get(url, new JsonHttpResponseHandler() {
             @Override
@@ -97,6 +164,7 @@ public class PostDetailsActivity extends AppCompatActivity {
                     Log.e("HomeFragment", "Error Storing api data: " + e.toString());
                 }
             }
+
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 Log.e(TAG, "Unable to load api", throwable);
@@ -106,17 +174,17 @@ public class PostDetailsActivity extends AppCompatActivity {
     }
 
     private void saveInDataBase() {
-            post.setDetail(result.getDetail());
-            post.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if(e == null){
-                    }
-                    else {
-                        Log.e(TAG,"Failed to save api result to database");
-                        Log.e(TAG,e.toString());
-                    }
+        post.setDetail(result.getDetail());
+        post.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                } else {
+                    Log.e(TAG, "Failed to save api result to database");
+                    Log.e(TAG, e.toString());
                 }
-            });
-        }
+            }
+        });
     }
+}
+
