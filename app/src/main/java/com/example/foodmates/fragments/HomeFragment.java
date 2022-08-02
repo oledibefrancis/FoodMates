@@ -45,8 +45,8 @@ import okhttp3.Headers;
 
 
 public class HomeFragment extends Fragment {
-    public static final String API_URL2 = "https://api.spoonacular.com/recipes/findByNutrients?apiKey=8cf7ac7ac6f449e49a93e9cf5576c873&minCarbs=10&maxCarbs=50&number=10";
-    public static final String API_URL = "https://api.spoonacular.com/recipes/complexSearch?apiKey=8cf7ac7ac6f449e49a93e9cf5576c873";
+    public static final String API_URL2 = "https://api.spoonacular.com/recipes/findByNutrients?apiKey=66ed036507b74261af45f98c30aa8f69&minCarbs=10&maxCarbs=50&number=10";
+    public static final String API_URL = "https://api.spoonacular.com/recipes/complexSearch?apiKey=66ed036507b74261af45f98c30aa8f69";
     public final static int REQUEST_CODE = 2031;
     public static final int NUMBER_OF_COLUMNS = 2;
     List<FeedItem> posts;
@@ -125,7 +125,8 @@ public class HomeFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-//                feedAdapter.getFilter().filter(newText);
+//                getSearchResults(newText);
+////                posts.clear();
                 return false;
             }
         });
@@ -140,13 +141,11 @@ public class HomeFragment extends Fragment {
                 Log.d(TAG, "onSuccess: " + json.toString());
                 JSONObject jsonObject = json.jsonObject;
                 foods = new ArrayList<>();
-//                JSONArray jsonArray = json.jsonArray;
                 try {
                     JSONArray results = jsonObject.getJSONArray("results");
                     Log.i(TAG, "Results: " + results);
                     foods.addAll(Food.fromJsonArray(results));
                     feedAdapter = new FeedAdapter(getContext(), foods);
-//                   saveInDataBase(results);
                     feedAdapter.notifyDataSetChanged();
                     rvHomeFeeds.setAdapter(feedAdapter);
                     rvHomeFeeds.setLayoutManager(new GridLayoutManager(getContext(),NUMBER_OF_COLUMNS));
@@ -222,8 +221,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -283,7 +280,6 @@ public class HomeFragment extends Fragment {
         query.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> dataPosts, ParseException e) {
-                // check for errors
                 if (e != null) {
                     Log.e(TAG, "Issue with getting posts", e);
                     return;
@@ -302,7 +298,6 @@ public class HomeFragment extends Fragment {
         query.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> dataPosts, ParseException e) {
-                // check for errors
                 if (e != null) {
                     Log.e(TAG, "Issue with getting posts", e);
                     return;

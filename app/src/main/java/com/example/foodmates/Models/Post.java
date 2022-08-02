@@ -97,6 +97,7 @@ public class Post extends ParseObject implements FeedItem {
         int MINUTE_MILLIS = 60 * SECOND_MILLIS;
         int HOUR_MILLIS = 60 * MINUTE_MILLIS;
         int DAY_MILLIS = 24 * HOUR_MILLIS;
+        int WEEK_MILLIS = 7 * DAY_MILLIS;
 
         try {
             Date createdAt = getCreatedAt();
@@ -116,7 +117,10 @@ public class Post extends ParseObject implements FeedItem {
                 return diff / HOUR_MILLIS + " h";
             } else if (diff < 48 * HOUR_MILLIS) {
                 return "yesterday";
-            } else {
+            }
+            else if(diff / DAY_MILLIS > 7 ){
+                return "a week";
+            }else {
                 return diff / DAY_MILLIS + " d";
             }
         } catch (Exception e) {
