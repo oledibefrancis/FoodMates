@@ -1,27 +1,34 @@
 package com.example.foodmates.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.foodmates.Adapters.chatAdapter;
 import com.example.foodmates.Models.Chat;
 import com.example.foodmates.Models.Message;
 import com.example.foodmates.Models.Post;
 import com.example.foodmates.R;
+import com.example.foodmates.fragments.FoodHubFragment;
 import com.example.foodmates.fragments.HomeFragment;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
@@ -40,8 +47,7 @@ import java.util.Objects;
 public class ChatActivity extends AppCompatActivity {
 
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 100;
-    static final String USER_ID_KEY = "userId";
-    static final String BODY_KEY = "body";
+    static final String USER_GROUP_KEY = "userGroups";
     private static final String TAG = HomeFragment.class.getSimpleName();
     protected chatAdapter mAdapter;
     protected List<Message> mMessages;
@@ -50,12 +56,15 @@ public class ChatActivity extends AppCompatActivity {
     ImageButton ibSend;
     RecyclerView rvChat;
     Boolean mFirstLoad;
+    Toolbar tbChat;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setActionBar(tbChat);
         setContentView(R.layout.activity_chat);
+        tbChat = findViewById(R.id.tbChat);
 
         chat = (Chat) Parcels.unwrap(getIntent().getParcelableExtra(Chat.class.getSimpleName()));
 
@@ -91,6 +100,34 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_group, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.leaveGroup:
+                leaveGroup(chat);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void leaveGroup(Chat chat) {
+        ParseUser user = ParseUser.getCurrentUser();
+        ParseRelation relation = user.getRelation(USER_GROUP_KEY);
+        relation.remove(chat);
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+            }
+        });
+        Intent intent = new Intent(ChatActivity.this, FoodHubFragment.class);
+        startActivity(intent);
+    }
 
     private void startWithCurrentUser() {
         setupMessagePosting();
@@ -124,7 +161,7 @@ public class ChatActivity extends AppCompatActivity {
                         if (e == null) {
                             updateObject(message);
                         } else {
-                            Log.e(TAG, "Falied to save message");
+                            Log.e(TAG, "Failed to save message");
                         }
                     }
                 });
