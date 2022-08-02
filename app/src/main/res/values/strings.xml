@@ -15,5 +15,10 @@
     <string name="take_picture">Take Picture</string>
     <string name="post_description">Post Description....</string>
     <string name="submit">Submit</string>
+    <string name="signup">SIGNUP</string>
+    <string name="login">LOGIN</string>
+    <string name="already_have_an_account">ALREADY HAVE AN ACCOUNT</string>
+    <string name="contact">+1(501.....)</string>
+    <string name="date">01/01/1999</string>
 
 </resources>
