@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.3546875" />
+        <entry key="app/src/main/res/drawable-v24/button_bg.xml" value="0.1275" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.232" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.349" />
         <entry key="app/src/main/res/drawable/ic_baseline_bookmark_24.xml" value="0.455" />
@@ -35,27 +36,29 @@
         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.2691292875989446" />
         <entry key="app/src/main/res/layout/activity_compose.xml" value="0.2843691148775895" />
         <entry key="app/src/main/res/layout/activity_details.xml" value="0.5760416666666667" />
-        <entry key="app/src/main/res/layout/activity_food_details.xml" value="0.1015625" />
+        <entry key="app/src/main/res/layout/activity_food_details.xml" value="0.48860015869140627" />
         <entry key="app/src/main/res/layout/activity_food_hub.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/activity_group_create.xml" value="0.5770833333333333" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_navigation_drawer.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/activity_post_details.xml" value="0.5760416666666667" />
+        <entry key="app/src/main/res/layout/activity_post_details.xml" value="0.524451939291737" />
         <entry key="app/src/main/res/layout/activity_saved_post.xml" value="0.2079207920792079" />
-        <entry key="app/src/main/res/layout/activity_signup.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/activity_signup.xml" value="0.42028985507246375" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.3145833333333333" />
-        <entry key="app/src/main/res/layout/activity_user_interest.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_user_interest.xml" value="0.45212554931640625" />
         <entry key="app/src/main/res/layout/activity_user_post.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/layout/app_bar_navigation_drawer.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/content_navigation_drawer.xml" value="0.38958333333333334" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_food_hub.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_food_hub.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_gallery.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.390625" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_slideshow.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/item_books.xml" value="0.29257246376811596" />
         <entry key="app/src/main/res/layout/item_foods.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/item_group_chat.xml" value="0.2182741116751269" />
         <entry key="app/src/main/res/layout/item_movie.xml" value="0.29257246376811596" />
         <entry key="app/src/main/res/layout/item_user_post.xml" value="0.20270270270270271" />
         <entry key="app/src/main/res/layout/message_incoming.xml" value="0.3875" />
@@ -67,7 +70,9 @@
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/menu/drawer_view.xml" value="0.21201413427561838" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.32760416666666664" />
-        <entry key="app/src/main/res/menu/menu_main.xml" value="0.5760416666666667" />
+        <entry key="app/src/main/res/menu/menu_foodhub.xml" value="0.3864734299516908" />
+        <entry key="app/src/main/res/menu/menu_group.xml" value="0.575" />
+        <entry key="app/src/main/res/menu/menu_main.xml" value="0.3771043771043771" />
         <entry key="app/src/main/res/menu/navigation_drawer.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="app/src/main/res/xml/fileprovider.xml" value="0.38645833333333335" />
