@@ -21,14 +21,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-//import com.example.careermatch.R;
 import com.example.foodmates.Models.Post;
 import com.example.foodmates.R;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseQuery;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -37,8 +33,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
+
 
 public class ComposeActivity extends AppCompatActivity {
     public static final String TAG = "ComposeActivity";
@@ -46,16 +41,17 @@ public class ComposeActivity extends AppCompatActivity {
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
-    EditText etDescription;
+    public EditText etDescription;
+    public Button btnSubmit;
+    public ImageView ivPostImage;
+    public EditText etTitle;
+    public ProgressBar progressBar;
+    public File photoFile;
+    public ParseFile image;
+    public String title;
+    public String description;
     Button btnCaptureImage;
-    Button btnSubmit;
-    ImageView ivPostImage;
-    EditText etTitle;
     Button btnPickImage;
-    ProgressBar progressBar;
-    private File photoFile;
-    private ParseFile image;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +73,8 @@ public class ComposeActivity extends AppCompatActivity {
 
                 btnSubmit.setClickable(false);
 
-                String description = etDescription.getText().toString();
-                String title = etTitle.getText().toString();
+                description = etDescription.getText().toString();
+                title = etTitle.getText().toString();
                 if (title.isEmpty()) {
                     Toast.makeText(ComposeActivity.this, "Title cannot be empty", Toast.LENGTH_SHORT).show();
                     btnSubmit.setClickable(true);
@@ -93,36 +89,6 @@ public class ComposeActivity extends AppCompatActivity {
                 savePost(description, currentUser, photoFile, title);
 
             }
-
-            private void savePost(String description, ParseUser currentUser, File photoFile, String title) {
-                Toast.makeText(ComposeActivity.this, "Saving post. Please wait", Toast.LENGTH_SHORT).show();
-                Post post = new Post();
-                post.setDetail(description);
-                post.setTitle(title);
-                post.setImage(image);
-                post.setUser(currentUser);
-                post.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e != null) {
-
-                            Toast.makeText(ComposeActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, e.toString());
-                        }
-                        if (photoFile == null || ivPostImage.getDrawable() == null) {
-                            Toast.makeText(ComposeActivity.this, "There is no image!", Toast.LENGTH_SHORT).show();
-                            btnSubmit.setClickable(true);
-                            return;
-                        }
-                        etDescription.setText("");
-                        etTitle.setText("");
-                        ivPostImage.setImageResource(0);
-                        btnSubmit.setClickable(true);
-                        progressBar.setVisibility(ProgressBar.INVISIBLE);
-                        finish();
-                    }
-                });
-            }
         });
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
@@ -135,8 +101,40 @@ public class ComposeActivity extends AppCompatActivity {
         btnPickImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ComposeActivity.this, "this button click", Toast.LENGTH_SHORT).show();
                 onPickPhoto(v);
+            }
+        });
+
+
+    }
+
+
+    public void savePost(String description, ParseUser currentUser, File photoFile, String title) {
+        Toast.makeText(ComposeActivity.this, "Saving post. Please wait", Toast.LENGTH_SHORT).show();
+        Post post = new Post();
+        post.setDetail(description);
+        post.setTitle(title);
+        post.setImage(image);
+        post.setUser(currentUser);
+        post.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+
+                    Toast.makeText(ComposeActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, e.toString());
+                }
+                if (photoFile == null || ivPostImage.getDrawable() == null) {
+                    Toast.makeText(ComposeActivity.this, "There is no image!", Toast.LENGTH_SHORT).show();
+                    btnSubmit.setClickable(true);
+                    return;
+                }
+                etDescription.setText("");
+                etTitle.setText("");
+                ivPostImage.setImageResource(0);
+                btnSubmit.setClickable(true);
+                progressBar.setVisibility(ProgressBar.INVISIBLE);
+                finish();
             }
         });
     }
