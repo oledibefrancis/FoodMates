@@ -79,11 +79,14 @@ public class FoodHubFragment extends Fragment {
 
         rvGroupChat.setAdapter(groupChatAdapter);
         rvGroupChat.setLayoutManager(new LinearLayoutManager(getContext()));
-        queryGroups();
-
-        rvSuggestedGroups.setAdapter(suggestedChatAdapter);
-        rvSuggestedGroups.setLayoutManager(new LinearLayoutManager(getContext()));
-        querySuggestedGroups();
+        queryGroups(new queryGroupsListener() {
+            @Override
+            public void onComplete() {
+                rvSuggestedGroups.setAdapter(suggestedChatAdapter);
+                rvSuggestedGroups.setLayoutManager(new LinearLayoutManager(getContext()));
+                querySuggestedGroups();
+            }
+        });
 
     }
 
@@ -109,7 +112,7 @@ public class FoodHubFragment extends Fragment {
         startActivity(intent);
     }
 
-    public void queryGroups() {
+    public void queryGroups(queryGroupsListener listener) {
         ParseUser user = ParseUser.getCurrentUser();
         ParseRelation<Chat> relation = user.getRelation("userGroups");
         ParseQuery<Chat> query = relation.getQuery();
@@ -118,18 +121,23 @@ public class FoodHubFragment extends Fragment {
             public void done(List<Chat> groups, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting posts", e);
+                    listener.onComplete();
                     return;
                 }
                 chats.addAll(groups);
                 groupChatAdapter.notifyDataSetChanged();
+                listener.onComplete();
             }
         });
     }
 
-
     public void querySuggestedGroups() {
         ParseQuery<Chat> query = ParseQuery.getQuery(Chat.class);
-        query.addAscendingOrder("createdAt");
+        List<String> l = new ArrayList<>();
+        for (Chat c : chats) {
+            l.add(c.getObjectId());
+        }
+        query.whereNotContainedIn("objectId", l);
         query.findInBackground(new FindCallback<Chat>() {
             @Override
             public void done(List<Chat> groups, ParseException e) {
@@ -137,13 +145,16 @@ public class FoodHubFragment extends Fragment {
                     Log.e(TAG, "Issue with getting posts", e);
                     return;
                 }
-                for (Chat c : groups) {
-                    suggestedChat.add(c);
-                    suggestedChatAdapter.notifyDataSetChanged();
-                }
+                suggestedChat.addAll(groups);
+                suggestedChatAdapter.notifyDataSetChanged();
             }
         });
     }
 
+
+    // Listener for queryGroups callback
+    public interface queryGroupsListener {
+        void onComplete();
+    }
 
 }

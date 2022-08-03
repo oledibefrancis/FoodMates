@@ -94,7 +94,7 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.View
                             openGroup.setVisibility(View.INVISIBLE);
                         }
                     }
-                    chats.addAll(groups);
+//                    chats.addAll(groups);
 
                 }
             });
